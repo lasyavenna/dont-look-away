@@ -1,7 +1,8 @@
 import { CHALLENGE } from './challenge';
 import type { GameConfig } from './config';
 import { applyDrain } from './sanity';
-import type { CoreDeps, GameEvent, GameState, Round, StepResult } from './types';
+import { serializeValue, truncateForDisplay } from './format';
+import type { CoreDeps, GameEvent, GameState, Round, Run, StepResult, TestResult } from './types';
 
 const MAX_SANITY = 100;
 
@@ -35,6 +36,38 @@ function newRound(roundId: number): Round {
     absenceEndSeq: 0,
     noticedActive: false,
   };
+}
+
+/** The latest run, only if it is running and the event's own runId matches it. */
+function currentRunning(state: GameState, runId: number): Run | null {
+  const run = state.run;
+  if (!run || run.status !== 'running' || run.runId !== runId) return null;
+  return run;
+}
+
+/** Marks a running run stale; keeps displayRun in sync when it shows that run. */
+function staleRunning(state: GameState): GameState {
+  const run = state.run;
+  if (!run || run.status !== 'running') return state;
+  const stale: Run = { ...run, status: 'stale' };
+  const displayRun = state.displayRun && state.displayRun.runId === run.runId ? stale : state.displayRun;
+  return { ...state, run: stale, displayRun };
+}
+
+function fillMissing(run: Run, status: 'error' | 'timeout', message: string): TestResult[] {
+  const have = new Set(run.results.map((r) => r.index));
+  const out = [...run.results];
+  for (let i = 0; i < run.testCount; i++) {
+    if (have.has(i)) continue;
+    out.push({
+      index: i,
+      status,
+      message,
+      expectedText: truncateForDisplay(serializeValue(CHALLENGE.tests[i]?.expected), 500),
+      actualText: null,
+    });
+  }
+  return out.sort((a, b) => a.index - b.index);
 }
 
 /** Round-tagged events (everything except START and RESTART) carry a roundId. */
@@ -92,8 +125,68 @@ export function step(
 
   switch (event.type) {
     case 'CODE_CHANGED': {
-      const run = state.run && state.run.status === 'running' ? { ...state.run, status: 'stale' as const } : state.run;
-      return applied({ ...state, code: event.code, run });
+      return applied({ ...staleRunning(state), code: event.code, resultsOutdated: state.displayRun !== null || state.resultsOutdated });
+    }
+    case 'RUN_REQUESTED': {
+      if (state.run?.status === 'running') return discarded(state);
+      const run: Run = {
+        runId: state.nextRunId,
+        roundId: event.roundId,
+        status: 'running',
+        testCount: CHALLENGE.tests.length,
+        results: [],
+        doneReceived: false,
+      };
+      return applied({ ...state, nextRunId: state.nextRunId + 1, run });
+    }
+    case 'RUN_RESULT': {
+      const run = currentRunning(state, event.runId);
+      if (!run) return discarded(state);
+      const { result } = event;
+      const idx = result?.index;
+      if (!Number.isInteger(idx) || idx < 0 || idx >= run.testCount) return discarded(state);
+      if (run.results.some((r) => r.index === idx)) return discarded(state);
+      const results = [...run.results, result].sort((a, b) => a.index - b.index);
+      const next: Run = { ...run, results };
+      // Progressive display: the new run's first result replaces the displayed results.
+      return applied({ ...state, run: next, displayRun: next, resultsOutdated: false });
+    }
+    case 'RUN_DONE': {
+      const run = currentRunning(state, event.runId);
+      if (!run || event.count !== run.testCount) return discarded(state);
+      const allReceived = run.results.length === run.testCount;
+      const filled = allReceived ? run.results : fillMissing(run, 'error', 'The test worker finished early.');
+      const next: Run = { ...run, results: filled, doneReceived: true, status: 'complete' };
+      const base: GameState = { ...state, run: next, displayRun: next, resultsOutdated: false };
+      if (allReceived && filled.every((r) => r.status === 'pass')) {
+        return applied({
+          ...base,
+          phase: state.sanity.value > 0 ? 'won' : 'lost',
+          activeRoundId: null,
+        });
+      }
+      return applied(base);
+    }
+    case 'RUN_ABORT': {
+      if (!currentRunning(state, event.runId)) return discarded(state);
+      return applied(staleRunning(state));
+    }
+    case 'RUN_TIMEOUT': {
+      const run = currentRunning(state, event.runId);
+      if (!run) return discarded(state);
+      const next: Run = { ...run, results: fillMissing(run, 'timeout', 'The test timed out.'), status: 'timedOut' };
+      return applied({ ...state, run: next, displayRun: next, resultsOutdated: false });
+    }
+    case 'RUN_FAILED': {
+      const run = currentRunning(state, event.runId);
+      if (!run) return discarded(state);
+      const next: Run = {
+        ...run,
+        results: fillMissing(run, 'error', 'Tests could not run.'),
+        status: 'failed',
+        error: String(event.message),
+      };
+      return applied({ ...state, run: next, displayRun: next, resultsOutdated: false });
     }
     case 'DRAIN_TICK': {
       if (state.round?.absenceActive) return discarded(state);

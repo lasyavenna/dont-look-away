@@ -1,3 +1,5 @@
+import { ScreenSwitch } from './app/ScreenSwitch'
+
 export default function App() {
-  return <h1>Don't Look Away</h1>
+  return <ScreenSwitch />
 }

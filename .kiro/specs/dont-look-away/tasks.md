@@ -117,8 +117,8 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
 - [x] 2. Checkpoint A - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Milestone B: Editor, real worker test runner, win/loss, and restart
-  - [ ] 3.1 Build the CodeMirror 6 editor component
+- [x] 3. Milestone B: Editor, real worker test runner, win/loss, and restart
+  - [x] 3.1 Build the CodeMirror 6 editor component
     - Create `src/components/CodeEditor.tsx` with JavaScript highlighting, the dark theme from CSS variables, and the accessible name "Code editor".
     - Tab trap in a compartment: Tab indents; Escape swaps to an empty keymap so the next Tab leaves the editor; the trap re-arms on blur. Show the hint "Esc then Tab leaves the editor".
     - A transaction filter rejects any change that would exceed `editorMaxLength` (including paste), keeps the accepted code, and shows a polite "limit reached" status.
@@ -126,12 +126,12 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - External replacement from `state.code` uses an `External` annotation so it is not echoed as a user change. A `readOnly` compartment is set in `won`/`lost`, keeping the editor readable and scrollable.
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 12.10, 18.4, 18.6_
 
-  - [ ]* 3.2 Write editor tests
+  - [x]* 3.2 Write editor tests
     - State-level tests for the length filter (rejects over 100,000), read-only, Escape/Tab compartment toggling, and the external-replace annotation.
     - jsdom view tests limited to mount, `aria-label`, and Escape then Tab not preventing default.
     - _Requirements: 4.3, 4.4, 4.5, 4.7, 4.8_
 
-  - [ ] 3.3 Extend the reducer with run handling and ordered win/loss
+  - [x] 3.3 Extend the reducer with run handling and ordered win/loss
     - Handle `RUN_REQUESTED` (only in `playing` with no running run; assign a monotonic `runId`), `RUN_RESULT`, `RUN_DONE`, `RUN_ABORT`, `RUN_TIMEOUT`, `RUN_FAILED`.
     - `RUN_RESULT` is accepted only when its own `roundId` equals `activeRoundId`, its own `runId` equals the latest run, the run is `running`, the index is an integer in range, and the index is new. Everything else is `discarded` with no state change.
     - A run is `complete` only when every index was received once and `RUN_DONE` was accepted. Missing indices at `RUN_DONE` become `error`. Timeout keeps received results and fills the rest with `timeout`. Failure fills the rest with `error` and sets `runError`.
@@ -140,94 +140,94 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - Run events never change sanity. Events in `won`/`lost` change nothing.
     - _Requirements: 1.5, 1.6, 1.7, 1.8, 1.12, 5.2, 5.4, 5.6, 5.9, 5.10, 5.11, 5.13, 5.14, 6.1, 6.6, 6.7, 7.1, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 8.4, 14.9, 15.10, 22.13, 22.21_
 
-  - [ ]* 3.4 Write property test for ordered win and loss
+  - [x]* 3.4 Write property test for ordered win and loss
     - **Property 5: Ordered-event win and loss**
     - **Validates: Requirements 1.5, 1.6, 1.7, 5.13, 22.11, 22.21**
 
-  - [ ]* 3.5 Write property test for stale, foreign, and ended-round events
+  - [x]* 3.5 Write property test for stale, foreign, and ended-round events
     - **Property 6: Stale, foreign, and ended-round events are no-ops**
     - **Validates: Requirements 5.9, 7.3, 7.4, 7.6, 14.9, 15.1, 15.10, 15.11, 22.13, 22.18, 22.20**
 
-  - [ ]* 3.6 Write property test for staling a running run
+  - [x]* 3.6 Write property test for staling a running run
     - **Property 7: Code change or mutation stales a running run**
     - Cover `CODE_CHANGED` here. The Mutation case is exercised after Milestone C task 5.1.
     - **Validates: Requirements 7.1, 7.2, 7.7, 12.14**
 
-  - [ ]* 3.7 Write property test for timeouts
+  - [x]* 3.7 Write property test for timeouts
     - **Property 8: Timeout keeps received results and fills the rest**
     - **Validates: Requirements 5.4, 5.6, 6.1, 22.19**
 
-  - [ ]* 3.8 Write property test for index validation
+  - [x]* 3.8 Write property test for index validation
     - **Property 16: Run indices are validated and a win needs every index exactly once**
     - **Validates: Requirements 5.4, 5.13, 5.14, 22.21**
 
-  - [ ] 3.9 Implement the real Execution_Worker and its factory
+  - [x] 3.9 Implement the real Execution_Worker and its factory
     - Create `src/worker/execution.worker.ts` with the `onmessage` handler that streams one `result` message per test, then `done`, and posts `fatal` on an unexpected exception. Every message carries `roundId` and `runId` and is structured-cloneable.
     - Create `src/worker/createExecutionWorker.ts` in the same directory with the only `new Worker(new URL('./execution.worker.ts', import.meta.url), { type: 'module' })` in the codebase, and export the `WorkerLike` and `WorkerFactory` types.
     - _Requirements: 5.3, 5.4, 5.5, 5.8, 5.15, 21.12_
 
-  - [ ]* 3.10 Write worker handler tests
+  - [x]* 3.10 Write worker handler tests
     - Call the handler against a stub `self`: one `result` per test, then `done` with the right count, parse failure gives `error` for all, a throwing test continues, all messages carry the run's ids.
     - _Requirements: 5.4, 5.5, 5.8_
 
-  - [ ] 3.11 Implement the game store with an ordered event queue
+  - [x] 3.11 Implement the game store with an ordered event queue
     - Create `src/app/store.ts` with `createGameStore(config, deps)`: FIFO queue, synchronous drain loop through `step`, a single subscriber notification after the queue is empty, no re-entrant dispatch, `getActiveRoundId()`, and an idempotent `detach()`.
     - `detach()` never disposes the store or changes phase, sanity, code, or `activeRoundId`. While `playing` with a running run it dispatches `RUN_ABORT`. In `ready` it does nothing.
     - _Requirements: 1.4, 15.3, 15.11, 15.13, 7.7_
 
-  - [ ]* 3.12 Write store tests
+  - [x]* 3.12 Write store tests
     - Events process in order, one at a time. A dispatch from a subscriber is queued. The store stays usable after `detach()`. `detach()` in `ready` is a no-op. `detach()` in `playing` with a running run stales it and keeps the round.
     - _Requirements: 1.4, 15.13_
 
-  - [ ] 3.13 Implement resource helpers and the `useTestRun` hook
+  - [x] 3.13 Implement resource helpers and the `useTestRun` hook
     - Create `src/app/resources.ts` (`addTimeout`, `addInterval`, `addListener`, `addWorker`, `addAudioNode`) built on the core registry.
     - Create `src/app/hooks/useTestRun.ts`: one effect keyed by `[roundId, runId, status==='running']` that creates the worker through the injected `WorkerFactory` only while a run is running, posts the run, and starts the `runTimeoutMs` timer that dispatches `RUN_TIMEOUT` with captured ids at most once.
     - `onmessage` validates shape with `isWorkerToMain` and dispatches events carrying the message's OWN `roundId` and `runId`, never captured ones. A factory throw, `onerror`, `onmessageerror`, or a `fatal` message dispatches `RUN_FAILED`.
     - Cleanup clears the timer, sets `onmessage` to null, and terminates the worker (a throwing `terminate()` is swallowed). No idle worker remains.
     - _Requirements: 5.2, 5.6, 5.9, 5.10, 5.12, 7.7, 14.7, 15.2, 15.4, 15.7, 15.12_
 
-  - [ ]* 3.14 Write runner tests with a fake worker
+  - [x]* 3.14 Write runner tests with a fake worker
     - Streaming one message per test; wrong `runId`/`roundId` discarded; late message after stale discarded; timeout under fake timers keeps received results; factory throw; worker `onerror`; worker terminated exactly once on complete, timeout, stale, and round end; a second run creates a new worker; `onmessage` nulled on cleanup; out-of-range, fractional, and duplicate indices ignored; all results without `done` do not win; a throwing `terminate()` does not break a restart.
     - _Requirements: 5.4, 5.6, 5.9, 5.10, 5.12, 5.14, 14.7, 15.2, 15.4_
 
-  - [ ] 3.15 Implement `GameProvider`, `useDrain`, and the app entry point
+  - [x] 3.15 Implement `GameProvider`, `useDrain`, and the app entry point
     - Create `src/app/GameProvider.tsx` that creates the store once with a lazy `useState` initializer, reads it through `useSyncExternalStore`, accepts `config` and `workerFactory` props, and applies dev-only query overrides (`import.meta.env.DEV || VITE_PLAYTEST === '1'`). Its only effect calls `store.detach()` on cleanup.
     - Create `src/app/hooks/useDrain.ts`: while `playing` and not `absenceActive`, register an interval of `drainIntervalMs` dispatching `DRAIN_TICK` with the captured round id.
     - Create `src/main.tsx` rendering `<StrictMode>`.
     - _Requirements: 8.2, 8.7, 15.3, 15.8, 15.13, 21.11_
 
-  - [ ] 3.16 Build the Start screen
+  - [x] 3.16 Build the Start screen
     - Create `src/app/screens/StartScreen.tsx` with the title, instructions covering Requirements 2.2 to 2.7 (goal, Page Visibility detection, once-per-round change with later absences still costing sanity, no camera or eye tracking and other visible windows may not be detected, sound off including after reload, not a secure code runner with a limitation statement of at most 200 characters), and the Begin button focused on mount.
     - Disable Begin and show "The instructions could not be loaded." if required content is missing. Activation by click, Enter, or Space dispatches `START`.
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10, 2.11, 16.8, 1.3, 19.4_
 
-  - [ ] 3.17 Build the TestPanel, SanityMeter, and Play screen
+  - [x] 3.17 Build the TestPanel, SanityMeter, and Play screen
     - Create `src/components/TestPanel.tsx`: one entry per Test_Case in definition order with name, status text (or "not run"), message, expected and actual values for `fail`, expected plus "no actual value" for `error`/`timeout`, an "outdated" badge, a "Run timed out" message, and "Tests could not run." on failure.
     - Create `src/components/SanityMeter.tsx` (`role="meter"`, `aria-label="Sanity"`, min 0, max 100, `aria-valuenow`, visible integer, fill `value%`).
     - Create `src/app/screens/PlayScreen.tsx`: challenge description, all test names, editor, Run Tests button (disabled with a visible in-progress indicator while a run is running, enabled again by the next render), and `Mod-Enter` wiring through `useTestRun`.
     - _Requirements: 3.5, 5.1, 5.7, 6.1, 6.2, 6.3, 6.4, 6.6, 6.7, 7.5, 8.8, 8.9, 8.10, 18.5_
 
-  - [ ] 3.18 Build the Results screen and restart control
+  - [x] 3.18 Build the Results screen and restart control
     - Create `src/app/screens/ResultsScreen.tsx` showing the outcome (`won`/`lost`), the final sanity integer, the number of Mutations applied (0 or 1), and an enabled "Look again" restart control that dispatches `RESTART`. The diff reveal is added in Milestone C.
     - _Requirements: 13.4, 14.1, 14.2, 1.9_
 
-  - [ ] 3.19 Wire `App` and the screen switch
+  - [x] 3.19 Wire `App` and the screen switch
     - Create `src/App.tsx` and `ScreenSwitch` that render exactly one screen from `state.phase` in one commit. Make `Run Tests`, restart, and start flows work end to end with the real store.
     - After restart the editor shows the unmodified starter code and no previous results.
     - _Requirements: 1.2, 1.11, 2.9, 3.6, 14.3, 14.4_
 
-  - [ ] 3.20 Write the StrictMode setup-cleanup-setup test
+  - [x] 3.20 Write the StrictMode setup-cleanup-setup test
     - Create `tests/components/strictMode.test.tsx` with `<StrictMode><GameProvider workerFactory={fake}><App/></GameProvider></StrictMode>` and fake timers.
     - Click Begin and assert `playing`. Advance 2 s and assert the meter shows 99. Click Run Tests, stream five passing results and `done` from the fake worker, and assert the win Results screen. Click restart and assert `ready`.
     - A second case unmounts and remounts the hooks on one store with `store.detach()` in between while `playing` with a running run, and asserts the run becomes `stale`, Run Tests is re-enabled, and the round continues.
     - Assert StrictMode leaves one interval and zero idle workers after mount, and zero resources after unmount.
     - _Requirements: 15.8, 15.13, 22.22, 15.3_
 
-  - [ ]* 3.21 Write screen component tests
+  - [x]* 3.21 Write screen component tests
     - One screen per phase; Start focus on Begin; Run button disabled while running; outdated badge; per-test streaming display replacing the previous run; meter role and `aria-valuenow`; late result after restart discarded; double restart activation restarts once.
     - _Requirements: 1.11, 2.8, 5.7, 6.1, 6.7, 7.5, 8.9, 14.8_
 
-- [ ] 4. Checkpoint B - Ensure all tests pass
+- [x] 4. Checkpoint B - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Confirm the worker asset is emitted in `dist/assets`. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 5. Milestone C: Visibility detection, mutation, sanity, and results reveal

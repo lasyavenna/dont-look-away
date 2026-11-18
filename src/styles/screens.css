@@ -1,0 +1,18 @@
+/* Start screen (shared screen scaffolding kept minimal) */
+.start-screen { min-height: 100vh; display: flex; flex-direction: column; }
+.start-screen .screen-header,
+.start-screen .screen-footer { padding: 12px 24px; color: var(--muted); font-family: var(--font-mono); font-size: 14px; }
+.start-screen .screen-brand { color: var(--accent); letter-spacing: 0.1em; }
+.start-screen .screen-main { flex: 1; max-width: 720px; width: 100%; margin: 0 auto; padding: 16px 24px; }
+.start-screen h1 { margin: 0 0 12px; font-size: 36px; color: var(--fg); }
+.start-screen .start-goal { font-size: 18px; margin: 0 0 12px; }
+.start-screen .start-list { margin: 0 0 24px; padding-left: 20px; }
+.start-screen .start-list li { margin-bottom: 8px; }
+.start-screen .start-error { color: var(--fg); border: 1px solid var(--accent); padding: 8px 12px; }
+.start-screen .begin-button {
+  font: inherit; font-size: 18px; padding: 10px 32px; cursor: pointer;
+  color: var(--fg); background: transparent; border: 2px solid var(--accent);
+}
+.start-screen .begin-button:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.start-screen .begin-button:disabled { opacity: 0.5; cursor: not-allowed; }
+.start-screen .begin-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }

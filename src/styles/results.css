@@ -1,0 +1,45 @@
+.results-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.results-header,
+.results-footer {
+  padding: 1rem 1.5rem;
+}
+
+.results-main {
+  flex: 1;
+  max-width: 40rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.results-heading:focus {
+  outline: none;
+}
+
+.results-stats {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.results-stats dt {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.results-stats dd {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.results-restart {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font: inherit;
+  cursor: pointer;
+}

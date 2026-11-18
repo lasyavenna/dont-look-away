@@ -1,0 +1,16 @@
+:root {
+  --bg: #141416;
+  --editor-bg: #141416;
+  --fg: #e4e4e8;
+  --muted: #b4b4bc;
+  --accent: #e04a43;
+  --focus: #e4e4e8;
+  --selection: #3a4254;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --syntax-keyword: #a9bcd8;
+  --syntax-string: #b8c9a8;
+  --syntax-number: #d3c28f;
+  --syntax-comment: #9a9aa3;
+  --syntax-function: #e4e4e8;
+  --syntax-punct: #b4b4bc;
+}

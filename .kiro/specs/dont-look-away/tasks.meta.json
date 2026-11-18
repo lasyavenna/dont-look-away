@@ -266,6 +266,277 @@
         "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
         "timestamp": 1794980692737
       }
+    ],
+    "3.1 Build the CodeMirror 6 editor component": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981038649
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981105185
+      }
+    ],
+    "3.3 Extend the reducer with run handling and ordered win/loss": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981038733
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981105246
+      }
+    ],
+    "3.9 Implement the real Execution_Worker and its factory": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981038782
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981105096
+      }
+    ],
+    "3.11 Implement the game store with an ordered event queue": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981108242
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981167740
+      }
+    ],
+    "3.2 Write editor tests": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981109161
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981167886
+      }
+    ],
+    "3.10 Write worker handler tests": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981109580
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981169199
+      }
+    ],
+    "3.4 Write property test for ordered win and loss": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981110312
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981167808
+      }
+    ],
+    "3.5 Write property test for stale, foreign, and ended-round events": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981110845
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981168743
+      }
+    ],
+    "3.13 Implement resource helpers and the `useTestRun` hook": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981174021
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981254821
+      }
+    ],
+    "3.12 Write store tests": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981174104
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981254406
+      }
+    ],
+    "3.6 Write property test for staling a running run": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981174436
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981254342
+      }
+    ],
+    "3.7 Write property test for timeouts": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981175454
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981256604
+      }
+    ],
+    "3.8 Write property test for index validation": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981176051
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981255874
+      }
+    ],
+    "3.14 Write runner tests with a fake worker": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981260270
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981343642
+      }
+    ],
+    "3.15 Implement `GameProvider`, `useDrain`, and the app entry point": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981260900
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981344028
+      }
+    ],
+    "3.16 Build the Start screen": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981347128
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981413801
+      }
+    ],
+    "3.17 Build the TestPanel, SanityMeter, and Play screen": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981347936
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981414197
+      }
+    ],
+    "3.18 Build the Results screen and restart control": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981348764
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981413688
+      }
+    ],
+    "3.19 Wire `App` and the screen switch": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981417010
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981474823
+      }
+    ],
+    "3.20 Write the StrictMode setup-cleanup-setup test": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981478063
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981573807
+      }
+    ],
+    "3.21 Write screen component tests": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981478720
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981574096
+      }
+    ],
+    "3. Milestone B: Editor, real worker test runner, win/loss, and restart": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981573886
+      }
+    ],
+    "4. Checkpoint B - Ensure all tests pass": [
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981579945
+      },
+      {
+        "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794981679927
+      }
     ]
   }
 }
