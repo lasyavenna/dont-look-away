@@ -230,52 +230,52 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
 - [x] 4. Checkpoint B - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Confirm the worker asset is emitted in `dist/assets`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Milestone C: Visibility detection, mutation, sanity, and results reveal
-  - [ ] 5.1 Extend the reducer with Absences, the Absence cost, and one Mutation per round
+- [x] 5. Milestone C: Visibility detection, mutation, sanity, and results reveal
+  - [x] 5.1 Extend the reducer with Absences, the Absence cost, and one Mutation per round
     - Handle `VISIBILITY_HIDDEN` (start an Absence only in `playing` with none active; a second hidden event joins the existing one) and `VISIBILITY_VISIBLE` (ignored when no Absence is active or the phase is not `playing`).
     - On an ended Absence, in one step: apply the Absence cost (floor 0, regardless of Mutation state); if sanity reaches 0 move to `lost` with no Mutation; otherwise, if `round.applied` is null, call `attemptMutation` in `candidateOrder` with `deps.saveSnapshot` and `editorMaxLength`.
     - On success, replace the code, record the snapshot and result, mark a running run `stale`, set `notice` to `watcherChanged`. On all-skipped or cancelled, leave the code unchanged and record `lastAttemptSkipped`. Bump `noticedSeq` and `absenceEndSeq` on every ended Absence in `playing`. Support `NOTICED_EXPIRED` with a matching seq.
     - An Absence in progress when the round ends is discarded with no cost and no Mutation. The Absence duration never matters.
     - _Requirements: 8.3, 8.7, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9, 12.2, 12.3, 12.4, 12.5, 12.6, 12.13, 12.14, 12.15, 12.16, 12.17, 13.1, 13.2, 13.3, 7.2_
 
-  - [ ]* 5.2 Write property test for bounded sanity including Absences
+  - [x]* 5.2 Write property test for bounded sanity including Absences
     - **Property 2: Sanity stays bounded and changes only through allowed events**
     - Also extend the Property 5 sequence generator with Absence ends so a sanity-zero Absence end yields `lost` and never `won`.
     - **Validates: Requirements 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 22.4, 22.5, 22.12, 1.7**
 
-  - [ ]* 5.3 Write property test for one Mutation per round
+  - [x]* 5.3 Write property test for one Mutation per round
     - **Property 10: At most one Mutation per round and ordered retry**
     - Also extend Property 7 coverage: an applied Mutation stales a running run in the same step.
     - **Validates: Requirements 12.2, 12.3, 12.4, 12.5, 12.6, 12.12, 12.15, 12.17, 22.12, 22.17, 7.2, 12.14**
 
-  - [ ]* 5.4 Write reducer unit tests for Absence edge cases
+  - [x]* 5.4 Write reducer unit tests for Absence edge cases
     - Duplicate `VISIBILITY_HIDDEN`; `VISIBILITY_VISIBLE` without an Absence; Absence discarded when the round ends; Absence cost reaching 0 gives `lost` without a Mutation; a failing `saveSnapshot` cancels and a later Absence retries; all candidates skipped then a later success; `size-limit` skip then the next candidate; second Absence costs sanity but applies no second Mutation; a run in progress becomes `stale` on a Mutation.
     - _Requirements: 11.5, 11.6, 11.8, 11.9, 12.6, 12.16, 12.17, 13.2_
 
-  - [ ] 5.5 Implement `useVisibility` and wire it into the Play screen
+  - [x] 5.5 Implement `useVisibility` and wire it into the Play screen
     - Create `src/app/hooks/useVisibility.ts`: while `playing`, register a `visibilitychange` listener through the registry and dispatch `VISIBILITY_HIDDEN`/`VISIBILITY_VISIBLE` tagged with the captured round id. Use only `document.visibilityState` (no camera, no focus heuristics).
     - Confirm drain pauses during an Absence and resumes when visible. Wire the hook into `PlayScreen`.
     - _Requirements: 11.1, 11.10, 8.7, 15.1, 15.3, 15.8_
 
-  - [ ] 5.6 Implement `useNoticed` and the Watcher-changed notification
+  - [x] 5.6 Implement `useNoticed` and the Watcher-changed notification
     - Create `src/app/hooks/useNoticed.ts`: an effect keyed by `noticedSeq` that sets a `noticedDurationMs` timer dispatching `NOTICED_EXPIRED {roundId, seq}`. A later Absence end supersedes the earlier one. The timer is cleared on cleanup and is a no-op once the round ends.
     - Add a polite status region on `PlayScreen` with "The Watcher changed your code." and no identifier, description, target, or changed lines.
     - _Requirements: 10.4, 10.5, 10.6, 12.13, 15.5, 15.6_
 
-  - [ ] 5.7 Implement `DiffView` and the Results reveal
+  - [x] 5.7 Implement `DiffView` and the Results reveal
     - Create `src/components/DiffView.tsx` rendering `diffLines(snapshot, resultingCode)` with `-`, `+`, and two-space text markers plus color.
     - In `ResultsScreen`: when a Mutation was applied, show its description and exactly one comparison; otherwise show "The Watcher changed nothing." and no comparison. A cancelled attempt is never shown. Move focus to the Results `h1` once rendered.
     - _Requirements: 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 14.3_
 
-  - [ ]* 5.8 Write DiffView and Results component tests
+  - [x]* 5.8 Write DiffView and Results component tests
     - Markers `-`/`+`/space; one comparison only; "changed nothing" with no diff; the restart clears snapshot and records; focus on the `h1`.
     - _Requirements: 13.5, 13.6, 13.7, 13.8, 14.3_
 
-  - [ ]* 5.9 Write the Absence flow integration test
+  - [x]* 5.9 Write the Absence flow integration test
     - With a fake worker and fake timers: hidden then visible gives sanity minus 10, one Mutation, the code in the editor replaced, a running run staled with Run Tests re-enabled, the notification shown, and the noticed timer superseded by a second Absence. Add a StrictMode case that plays a tab switch.
     - _Requirements: 8.3, 10.5, 11.3, 11.4, 12.10, 12.13, 12.14, 7.2, 7.8_
 
-- [ ] 6. Checkpoint C - Ensure all tests pass
+- [x] 6. Checkpoint C - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Milestone D: Horror visuals, audio, and accessibility

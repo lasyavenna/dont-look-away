@@ -537,6 +537,133 @@
         "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
         "timestamp": 1794981679927
       }
+    ],
+    "5.1 Extend the reducer with Absences, the Absence cost, and one Mutation per round": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982100050
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982171471
+      }
+    ],
+    "5.7 Implement `DiffView` and the Results reveal": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982100160
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982171562
+      }
+    ],
+    "5.2 Write property test for bounded sanity including Absences": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982171647
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982369789
+      }
+    ],
+    "5.3 Write property test for one Mutation per round": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982171739
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982241276
+      }
+    ],
+    "5.4 Write reducer unit tests for Absence edge cases": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982172590
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982241351
+      }
+    ],
+    "5.5 Implement `useVisibility` and wire it into the Play screen": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982172905
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982241418
+      }
+    ],
+    "5.6 Implement `useNoticed` and the Watcher-changed notification": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982241478
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982284242
+      }
+    ],
+    "5. Milestone C: Visibility detection, mutation, sanity, and results reveal": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982284307
+      }
+    ],
+    "5.8 Write DiffView and Results component tests": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982284781
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982369869
+      }
+    ],
+    "5.9 Write the Absence flow integration test": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982285347
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982370436
+      }
+    ],
+    "6. Checkpoint C - Ensure all tests pass": [
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982370855
+      },
+      {
+        "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794982415786
+      }
     ]
   }
 }

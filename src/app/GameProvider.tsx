@@ -6,7 +6,9 @@ import type { GameEvent, GameState } from '../core/types';
 import { createExecutionWorker } from '../worker/createExecutionWorker';
 import type { WorkerFactory } from '../worker/createExecutionWorker';
 import { useDrain } from './hooks/useDrain';
+import { useNoticed } from './hooks/useNoticed';
 import { useTestRun } from './hooks/useTestRun';
+import { useVisibility } from './hooks/useVisibility';
 import { createGameStore } from './store';
 import type { GameStore } from './store';
 
@@ -50,6 +52,8 @@ export function GameProvider({ config: configProp, workerFactory = createExecuti
   const dispatch = useCallback((event: GameEvent) => store.dispatch(event), [store]);
   const { requestRun } = useTestRun(store, workerFactory, config);
   useDrain(store, config);
+  useVisibility(store);
+  useNoticed(store, config);
 
   const value = useMemo<GameContextValue>(
     () => ({ state, dispatch, config, store, requestRun, workerFactory }),

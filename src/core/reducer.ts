@@ -1,6 +1,8 @@
 import { CHALLENGE } from './challenge';
 import type { GameConfig } from './config';
-import { applyDrain } from './sanity';
+import { CANDIDATES, attemptMutation } from './mutations';
+import type { CandidateMutation } from './mutations';
+import { applyAbsenceCost, applyDrain } from './sanity';
 import { serializeValue, truncateForDisplay } from './format';
 import type { CoreDeps, GameEvent, GameState, Round, Run, StepResult, TestResult } from './types';
 
@@ -85,7 +87,7 @@ export function step(
   state: GameState,
   event: GameEvent,
   config: GameConfig,
-  _deps?: CoreDeps,
+  deps?: CoreDeps,
 ): StepResult {
   switch (event.type) {
     case 'START': {
@@ -196,9 +198,62 @@ export function step(
       }
       return applied({ ...state, sanity: { value } });
     }
-    // Milestone B (run events: RUN_REQUESTED, RUN_RESULT, RUN_DONE, RUN_ABORT,
-    // RUN_TIMEOUT, RUN_FAILED) and Milestone C (VISIBILITY_*, NOTICED_EXPIRED)
-    // add cases here; until then they are discarded with state unchanged.
+    case 'VISIBILITY_HIDDEN': {
+      const round = state.round;
+      if (!round || round.absenceActive) return discarded(state);
+      return applied({ ...state, round: { ...round, absenceActive: true } });
+    }
+    case 'VISIBILITY_VISIBLE': {
+      const round = state.round;
+      if (!round || !round.absenceActive) return discarded(state);
+      const base: Round = {
+        ...round,
+        absenceActive: false,
+        noticedSeq: round.noticedSeq + 1,
+        absenceEndSeq: round.absenceEndSeq + 1,
+      };
+      const value = applyAbsenceCost(state.sanity.value, config);
+      if (value <= 0) {
+        // Lost by the Absence cost: no Mutation, round ends in this same step.
+        return applied({
+          ...state,
+          phase: 'lost',
+          activeRoundId: null,
+          sanity: { value: 0 },
+          round: { ...base, noticedActive: false },
+          notice: 'none',
+        });
+      }
+      const withCost: GameState = { ...state, sanity: { value } };
+      if (round.applied !== null) {
+        return applied({ ...withCost, round: { ...base, noticedActive: true }, notice: 'none' });
+      }
+      const candidates = config.candidateOrder
+        .map((id) => CANDIDATES.find((c) => c.id === id))
+        .filter((c): c is CandidateMutation => c !== undefined);
+      const save = deps?.saveSnapshot ?? (() => true);
+      const result = attemptMutation(state.code, candidates, save, config.editorMaxLength);
+      if (result.kind === 'applied') {
+        const marked = staleRunning(withCost);
+        return applied({
+          ...marked,
+          code: result.record.resultingCode,
+          resultsOutdated: state.displayRun !== null || state.resultsOutdated,
+          round: { ...base, applied: result.record, lastAttemptSkipped: result.skipped, noticedActive: true },
+          notice: 'watcherChanged',
+        });
+      }
+      return applied({
+        ...withCost,
+        round: { ...base, lastAttemptSkipped: result.skipped, noticedActive: true },
+        notice: 'none',
+      });
+    }
+    case 'NOTICED_EXPIRED': {
+      const round = state.round;
+      if (!round || event.seq !== round.noticedSeq) return discarded(state);
+      return applied({ ...state, round: { ...round, noticedActive: false }, notice: 'none' });
+    }
     default:
       return discarded(state);
   }

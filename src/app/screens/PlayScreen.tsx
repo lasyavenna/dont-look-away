@@ -53,6 +53,9 @@ export function PlayScreen() {
           </button>
         </section>
       </main>
+      <div role="status" aria-live="polite" className="play-screen__notice">
+        {state.notice === 'watcherChanged' ? 'The Watcher changed your code.' : ''}
+      </div>
       <footer className="play-screen__footer">
         <small>Ctrl/Cmd+Enter runs the tests.</small>
       </footer>

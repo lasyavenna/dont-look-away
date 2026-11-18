@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import '../../styles/results.css';
 import { useGame } from '../GameProvider';
+import { DiffView } from '../../components/DiffView';
 
 export const RESULTS_MAIN_ID = 'main-content';
 
@@ -36,9 +37,15 @@ export function ResultsScreen() {
             <dd>{mutationCount}</dd>
           </div>
         </dl>
-        {/* Milestone C seam: the diff reveal (task 5.7) replaces the applied-mutation branch below. */}
         <section aria-label="What the Watcher changed" className="results-reveal">
-          {applied === null ? <p>The Watcher changed nothing.</p> : null}
+          {applied === null ? (
+            <p>The Watcher changed nothing.</p>
+          ) : (
+            <>
+              <p>{applied.description}</p>
+              <DiffView before={applied.snapshot} after={applied.resultingCode} />
+            </>
+          )}
         </section>
         <button type="button" className="results-restart" onClick={() => dispatch({ type: 'RESTART' })}>
           Look again
