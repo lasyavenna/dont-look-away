@@ -37,4 +37,4 @@ mutation feedback, and tab-only trigger below.
 Validation status
 
 354 automated tests, type-checking, and the production build pass.
-Browser verification remains pending because Chromium cannot start in this workspace.
+The Vercel branch preview was tested in connected Chrome. Two-second Space/Enter\nholds applied each room's own cut, the wound survived notice expiry, repairing\nthe line cleared the marker, and both rooms were won in sequence. Restart\nreturned to room one. At 1024×768 the start screen fit and the wound layout had\nno horizontal overflow. The standalone headless verification script could not\nrun because Chromium cannot start in this workspace.
