@@ -1,6 +1,10 @@
 # dont-look-away
 A psychological horror coding game where looking away lets the Watcher alter your code. Built with Kiro for Kiroween 2026.
 
+## Play the game
+
+**[Play Don't Look Away](https://dont-look-away.vercel.app/)** in your browser. No install is needed. Sound is off until you choose to enable it.
+
 ## What this is
 
 Don't Look Away is a browser-based psychological horror coding game, made with Kiro for Kiroween 2026 in the Costume Contest category. You fix a small JavaScript function while your sanity drains. If you look away, the Watcher changes your code.
