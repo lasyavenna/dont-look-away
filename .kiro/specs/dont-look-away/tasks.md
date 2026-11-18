@@ -341,8 +341,8 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
 - [x] 8. Checkpoint D - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Milestone E: Production-build verification and documentation
-  - [ ] 9.1 Implement the real-browser build verification script
+- [x] 9. Milestone E: Production-build verification and documentation
+  - [x] 9.1 Implement the real-browser build verification script
     - Create `scripts/verify-build.mjs` and add the `verify:build` npm script. Add Playwright as a dev dependency (headless Chromium).
     - The script builds (unless `--no-build`), asserts `dist/assets` holds a non-empty worker script referenced by the main bundle, starts `vite preview` on a free port as a child process (stopped on exit), and supports `VERIFY_URL` for a dev server.
     - Flow against the REAL worker: click Begin, Run Tests with the starter and assert the worker asset returned 200 with 4 passing and 1 failing tests within the Run_Timeout. Replace the code with `function brightestCandle(c) { while (true) {} }`, Run Tests, and assert that during the run a `requestAnimationFrame` counter keeps advancing and the sanity meter keeps updating, that after about 3000 ms every test shows `timeout`, Run Tests is re-enabled, and no worker is alive. Then replace the code with the correct fix (`>`), Run Tests, and assert a fresh worker streams five passes and the Results screen shows a win.
@@ -350,36 +350,36 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - Exit non-zero with an error identifying the failing step, and leave source files unchanged.
     - _Requirements: 5.3, 5.6, 5.7, 5.12, 5.15, 7.7, 10.1, 20.4, 20.5, 21.9, 21.10, 21.12_
 
-  - [ ] 9.2 Run the build verification against both the production preview and the dev server
+  - [x] 9.2 Run the build verification against both the production preview and the dev server
     - Run `npm run verify:build` (production build plus `vite preview`) and fix any failure.
     - Start the dev server in a separate terminal with `npm run dev` (a long-running process that the developer starts manually), then run `VERIFY_URL=http://localhost:5173 node scripts/verify-build.mjs --no-build`. Both modes must pass.
     - _Requirements: 5.15, 21.12, 5.6_
 
-  - [ ] 9.3 Write `docs/EXECUTION.md`
+  - [x] 9.3 Write `docs/EXECUTION.md`
     - Create the file new (append a new section if it already exists) covering: purpose and scope; a Web Worker keeps the page responsive and is not a security sandbox; player code in the worker can make network requests, use worker-scoped browser APIs, and consume CPU and memory until termination; only code typed by the player in the same session is supported; the Run_Timeout is 3000 milliseconds; on timeout the worker is terminated, tests without a result are reported `timeout`, and the player is informed; how code runs (`new Function` in a per-run module worker, a synchronous infinite loop stops only through termination).
     - Do not touch README.md in this step.
     - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 16.7_
 
-  - [ ] 9.4 Update `README.md` deliberately (append-only)
+  - [x] 9.4 Update `README.md` deliberately (append-only)
     - As a separate step after scaffolding, append player-facing setup and gameplay sections (install, `npm run dev`, `npm run build`, `npm run test`, `npm run typecheck`, `npm run verify:build`, how to play, Page Visibility-only detection, no camera or eye tracking, sound opt-in, playtest query overrides in dev) and a link to `docs/EXECUTION.md`.
     - Preserve all existing README content. Confirm with `git diff README.md` that there are only added lines.
     - _Requirements: 21.6, 16.9, 2.11_
 
-  - [ ]* 9.5 Write a documentation content test
+  - [x]* 9.5 Write a documentation content test
     - Assert `docs/EXECUTION.md` contains the required statements (not a sandbox, network access, only same-session code, 3000 ms, termination and `timeout` reporting) and that `README.md` links to it.
     - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5, 16.9_
 
-  - [ ] 9.6 Create the final manual playtest checklist
+  - [x] 9.6 Create the final manual playtest checklist
     - Create `docs/PLAYTEST.md` with the manual checks from the design: tab switch and minimize (cost, one Mutation, cue, noticed Watcher), mid-round reduced-motion toggle, code contrast at every level with CRT and vignette, `while(true){}` responsiveness and recovery, keyboard-only full round including Escape then Tab, sound opt-in and off after reload and opt-in surviving restart, playtest query overrides (for example `?drainMs=300&absenceCost=40`), and screen reader announcement timing.
     - Only create the checklist file. Running the playtest is outside this plan.
     - _Requirements: 8.3, 10.4, 12.13, 17.4, 18.1, 19.1, 19.10, 20.3, 21.11_
 
-  - [ ] 9.7 Verify the repository constraints at the end
+  - [x] 9.7 Verify the repository constraints at the end
     - Confirm `README.md` and `LICENSE` have no deleted lines and `.gitignore` has only added lines (`git diff`). Confirm `git check-ignore .kiro` reports no match and `git ls-files .kiro` lists every spec file.
     - Confirm no file under `src/` imports `tests/fixtures/referenceSolution.ts`, and that the production bundle does not contain the reference solution text.
     - _Requirements: 3.3, 21.3, 21.4, 21.7, 21.8_
 
-- [ ] 10. Final checkpoint - Ensure all tests pass
+- [x] 10. Final checkpoint - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, `npm run build`, and `npm run verify:build`. Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

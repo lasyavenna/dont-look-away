@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:build": "node scripts/verify-build.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.11.1",
@@ -29,6 +31,7 @@
     "@vitejs/plugin-react": "^6.3.0",
     "fast-check": "^4.10.2",
     "jsdom": "^31.0.1",
+    "playwright-core": "^1.65.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
     "vitest": "^5.1.0"

@@ -837,6 +837,109 @@
         "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
         "timestamp": 1794984614397
       }
+    ],
+    "9.1 Implement the real-browser build verification script": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794986712875
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987155467
+      }
+    ],
+    "9.3 Write `docs/EXECUTION.md`": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794986712970
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987155584
+      }
+    ],
+    "9.2 Run the build verification against both the production preview and the dev server": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987155690
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987238380
+      }
+    ],
+    "9.4 Update `README.md` deliberately (append-only)": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987156275
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987238462
+      }
+    ],
+    "9.6 Create the final manual playtest checklist": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987238541
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987354167
+      }
+    ],
+    "9.5 Write a documentation content test": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987238630
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987354051
+      }
+    ],
+    "9.7 Verify the repository constraints at the end": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987354536
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987387758
+      }
+    ],
+    "9. Milestone E: Production-build verification and documentation": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987387810
+      }
+    ],
+    "10. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987387886
+      },
+      {
+        "executionId": "33b3a20f-427f-474b-a4f9-6b0d92a6c2cb",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794987459457
+      }
     ]
   }
 }
