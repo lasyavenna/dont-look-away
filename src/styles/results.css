@@ -81,3 +81,5 @@
   white-space: nowrap;
   border: 0;
 }
+
+.diff-view { max-width: 100%; overflow-x: auto; white-space: pre; }

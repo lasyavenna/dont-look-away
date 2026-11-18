@@ -1,0 +1,26 @@
+/* Per-level treatments. Variables (--watcher-opacity etc.) come from tokens.css. */
+.play-screen { --meter-border-style: solid; --meter-border-width: 1px; --warning-size: 1rem; }
+.play-screen.level-calm { --meter-fill: var(--muted); }
+.play-screen.level-uneasy { --meter-fill: var(--accent); --meter-border-style: solid; --meter-border-width: 2px; }
+.play-screen.level-distressed { --meter-fill: var(--accent); --meter-border-style: dashed; --meter-border-width: 2px; }
+.play-screen.level-critical {
+  --meter-fill: var(--accent); --meter-border-style: double; --meter-border-width: 4px; --warning-size: 1.5rem;
+  /* edge-only vignette: never covers editor text */
+  box-shadow: inset 0 0 6rem 1rem color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.sanity-meter__track {
+  border-style: var(--meter-border-style);
+  border-width: var(--meter-border-width);
+}
+.sanity-meter__fill { background: var(--meter-fill, var(--muted)); }
+.sanity-meter__level { font-weight: 600; min-width: 7ch; }
+.play-screen.level-uneasy .sanity-meter__level,
+.play-screen.level-distressed .sanity-meter__level,
+.play-screen.level-critical .sanity-meter__level { color: var(--accent); }
+.play-screen__warning { margin: 0; min-height: 1.5em; color: var(--fg); font-weight: 600; }
+.play-screen.level-distressed .play-screen__warning { font-size: 1rem; }
+.play-screen.level-critical .play-screen__warning { font-size: 1.5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .play-screen.level-critical .sanity-meter__track { animation: level-pulse 2s ease-in-out infinite; }
+}
+@keyframes level-pulse { 50% { opacity: 0.9; } }

@@ -1,0 +1,68 @@
+/*
+ * CRT overlay (Req 20.2, 20.3, 9.3, 9.8, 17.1).
+ *
+ * Contrast: the overlay sits above content with mix-blend-mode: normal, so
+ * its black scanline stripes composite as simple alpha darkening. With
+ * scanline alpha <= 0.08 on the darkest stripe rows, foreground luminance
+ * drops by at most 8%, which keeps code text well above 4.5:1 against the
+ * (also darkened) background since both scale together. The vignette only
+ * affects the outer edges. Red comes solely from the --accent token.
+ *
+ * Flicker: 6 s cycle, opacity swing <= 3%, far below 3 flashes per second.
+ * Disabled (static) under data-reduced-motion="true" and prefers-reduced-motion.
+ */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: normal;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, var(--crt-vignette-alpha)) 100%
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--crt-scanline-alpha)) 0,
+      rgba(0, 0, 0, var(--crt-scanline-alpha)) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  opacity: 1;
+  animation: crt-flicker var(--crt-flicker-duration) ease-in-out infinite;
+}
+
+:root[data-level='critical'] .crt-overlay {
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      color-mix(in srgb, var(--accent) calc(var(--crt-vignette-alpha) * 100%), transparent) 100%
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, var(--crt-scanline-alpha)) 0,
+      rgba(0, 0, 0, var(--crt-scanline-alpha)) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  47% { opacity: 1; }
+  50% { opacity: 0.97; }
+  53% { opacity: 1; }
+}
+
+:root[data-reduced-motion='true'] .crt-overlay {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay {
+    animation: none;
+  }
+}

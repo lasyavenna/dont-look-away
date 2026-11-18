@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import '../../styles/results.css';
 import { useGame } from '../GameProvider';
 import { DiffView } from '../../components/DiffView';
+import { SkipLink } from '../../components/SkipLink';
 
 export const RESULTS_MAIN_ID = 'main-content';
 
@@ -20,10 +21,11 @@ export function ResultsScreen() {
 
   return (
     <div className="results-screen">
+      <SkipLink targetId={RESULTS_MAIN_ID} />
       <header className="results-header">
         <p className="results-title">Don&apos;t Look Away</p>
       </header>
-      <main id={RESULTS_MAIN_ID} className="results-main">
+      <main id={RESULTS_MAIN_ID} className="results-main" tabIndex={-1}>
         <h1 ref={headingRef} tabIndex={-1} className="results-heading">
           {won ? 'You won' : 'You lost'}
         </h1>

@@ -13,4 +13,35 @@
   --syntax-comment: #9a9aa3;
   --syntax-function: #e4e4e8;
   --syntax-punct: #b4b4bc;
+
+  /* Surfaces and lines (neutral; no second red) */
+  --surface: #1b1b1f;
+  --line: #2a2a2e;
+  --line-red: color-mix(in srgb, var(--accent) 35%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 25%, transparent);
+  --accent-strong: color-mix(in srgb, var(--accent) 80%, transparent);
+  --atmosphere: radial-gradient(ellipse at 50% 0%, #1c1c21 0%, var(--bg) 60%);
+  /* Layout */
+  --content-max: 72rem;
+  --reading-max: 40rem;
+  --space: 1.5rem;
+  --watcher-size: 9rem;
+  /* Per-level CRT and Watcher variables (default: calm) */
+  --crt-scanline-alpha: 0.03;
+  --crt-vignette-alpha: 0;
+  --crt-flicker-duration: 6s;
+  --watcher-opacity: 0.45;
+  --level-intensity: 0;
+}
+:root[data-level='calm'], .level-calm, .warning-calm {
+  --crt-scanline-alpha: 0.03; --crt-vignette-alpha: 0; --watcher-opacity: 0.45; --level-intensity: 0;
+}
+:root[data-level='uneasy'], .level-uneasy, .warning-uneasy {
+  --crt-scanline-alpha: 0.05; --crt-vignette-alpha: 0.12; --watcher-opacity: 0.6; --level-intensity: 1;
+}
+:root[data-level='distressed'], .level-distressed, .warning-distressed {
+  --crt-scanline-alpha: 0.065; --crt-vignette-alpha: 0.22; --watcher-opacity: 0.75; --level-intensity: 2;
+}
+:root[data-level='critical'], .level-critical, .warning-critical {
+  --crt-scanline-alpha: 0.08; --crt-vignette-alpha: 0.4; --watcher-opacity: 1; --level-intensity: 3;
 }

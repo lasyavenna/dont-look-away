@@ -6,6 +6,7 @@ import type { GameEvent, GameState } from '../core/types';
 import { createExecutionWorker } from '../worker/createExecutionWorker';
 import type { WorkerFactory } from '../worker/createExecutionWorker';
 import { useDrain } from './hooks/useDrain';
+import { useReducedMotion } from './hooks/useReducedMotion';
 import { useNoticed } from './hooks/useNoticed';
 import { useTestRun } from './hooks/useTestRun';
 import { useVisibility } from './hooks/useVisibility';
@@ -19,6 +20,7 @@ export interface GameContextValue {
   store: GameStore;
   requestRun(): void;
   workerFactory: WorkerFactory;
+  reducedMotion: boolean;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -54,10 +56,15 @@ export function GameProvider({ config: configProp, workerFactory = createExecuti
   useDrain(store, config);
   useVisibility(store);
   useNoticed(store, config);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-reduced-motion', reducedMotion ? 'true' : 'false');
+  }, [reducedMotion]);
 
   const value = useMemo<GameContextValue>(
-    () => ({ state, dispatch, config, store, requestRun, workerFactory }),
-    [state, dispatch, config, store, requestRun, workerFactory],
+    () => ({ state, dispatch, config, store, requestRun, workerFactory, reducedMotion }),
+    [state, dispatch, config, store, requestRun, workerFactory, reducedMotion],
   );
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

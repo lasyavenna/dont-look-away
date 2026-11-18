@@ -40,7 +40,8 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 - **Round_Id**: An identifier assigned by the Game_Controller to each Round. The Round_Id differs for every Round within a page lifetime. When a Round ends or the player restarts, the Round_Id is invalidated immediately and synchronously (the active-round token changes in the same Game_Event processing step), so that late callbacks, timers, worker messages, and visibility events tagged with the ended Round_Id become no-ops.
 - **Game_Config**: The single central configuration module holding every configurable gameplay setting listed under Provisional Settings.
 - **Resource_Release**: The release of timers, listeners, Execution_Workers, and audio nodes during normal React effect cleanup. Resource_Release is distinct from invalidation, which is immediate.
-- **Start_Screen**: The screen shown in the `ready` state, containing instructions, a start control, and the Mute_Control.
+- **Start_Screen**: The screen shown in the `ready` state, containing the three gameplay rules, a sound instruction, a start control, the Mute_Control, and the Technical_Details section.
+- **Technical_Details**: The expandable section of the Start_Screen, collapsed by default, with the summary text "Technical details", that holds implementation details and execution limitations.
 - **Play_Screen**: The screen shown in the `playing` state, containing the code editor, test panel, sanity meter, Mute_Control, and Watcher.
 - **Results_Screen**: The screen shown in the `won` and `lost` states.
 - **Skip_Link**: The first focusable element on each screen, which moves keyboard focus to the main content of the screen that is currently displayed.
@@ -94,16 +95,16 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 
 #### Acceptance Criteria
 
-1. WHILE the Game_State is `ready`, THE Start_Screen SHALL display the game title, instructions, the Mute_Control, and a start control, all visible without scrolling at viewport sizes of 1024x768 pixels or larger.
-2. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that the goal is to pass every test before sanity reaches zero.
-3. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that the Game detects when the page becomes hidden or visible again through the browser's Page Visibility API, for example when the player switches to another browser tab or minimizes the window, and that returning from such an absence may cause the Watcher to change the code.
-4. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that the Watcher changes the code at most once per round, and that each later absence in the same round still reduces sanity.
-5. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that the Game does not use a camera or eye tracking, and that switching to another window that remains visible alongside the Game may not be detected.
-6. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that audio is off, including after a page reload, until the player turns it on with one activation of the "Enable sound" Mute_Control.
-7. WHILE the Game_State is `ready`, THE Start_Screen SHALL state that the player's code runs in the browser without a security sandbox and that the player should enter only code they trust.
+1. WHILE the Game_State is `ready`, THE Start_Screen SHALL display the game title, the three gameplay rules, the Mute_Control, a start control, and the collapsed Technical_Details summary, all visible without scrolling at viewport sizes of 1024x768 pixels or larger.
+2. WHILE the Game_State is `ready`, THE Start_Screen SHALL prominently display exactly three concise gameplay rules with this text: "Fix the function before sanity reaches zero.", "Leaving the tab costs N sanity and may change your code.", and "The Watcher can change your code once per round.", where N equals the Absence cost read from Game_Config (10 by default).
+3. WHILE the Game_State is `ready`, THE Start_Screen SHALL display the Technical_Details section as a native `details` element with a `summary` whose text is "Technical details" (or an equivalent button exposing `aria-expanded` and `aria-controls`), collapsed by default, and operable with the Enter key and the Space key.
+4. THE Technical_Details section SHALL state that the Game detects only whether the page is hidden or visible through the browser's Page Visibility API, for example when the player switches to another browser tab or minimizes the window, that switching to another window that remains visible alongside the Game may not be detected, and that the Game does not use a camera, eye tracking, or gaze detection.
+5. THE Technical_Details section SHALL state that the player's code runs in a Web Worker in the browser, that a Web Worker is not a security sandbox, that only code the player types in the same session should be run (in a limitation statement of at most 200 characters), and that each test run times out after the Run_Timeout read from Game_Config (3000 ms by default).
+6. WHILE the Game_State is `ready`, THE Start_Screen SHALL display a sound instruction that reflects the current sound state, including after a round restart: while sound is off, the instruction SHALL state that sound is off and can be turned on with the "Enable sound" button, and while sound is on, the instruction SHALL state that sound is on and can be muted with the "Mute sound" button, so that the instruction never states sound is off while sound is on, and after a page reload the instruction states that sound is off.
+7. THE Technical_Details section SHALL state that sound is off until the player enables it.
 8. WHEN the Start_Screen is displayed, THE Game_Controller SHALL move keyboard focus to the start control.
 9. WHEN the player activates the start control by mouse click, the Enter key, or the Space key, THE Game_Controller SHALL change the Game_State from `ready` to `playing` and hide the Start_Screen in the same render commit.
-10. IF the Start_Screen fails to render any of the required content in criteria 1 to 7, THEN THE Game_Controller SHALL keep the start control disabled and display an error message indicating that the instructions could not be loaded.
+10. IF the Start_Screen fails to render the three gameplay rules or the Technical_Details content required by criteria 2 to 7, THEN THE Game_Controller SHALL keep the start control disabled and display an error message indicating that the instructions could not be loaded.
 11. THE Game SHALL NOT use a camera, microphone, or eye tracking, and THE Start_Screen SHALL NOT claim to detect eye gaze, camera input, or every window switch.
 
 ### Requirement 3: Challenge Definition
@@ -339,7 +340,7 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 5. THE documentation SHALL describe the termination behavior: when a run exceeds the Run_Timeout of 3000 milliseconds, the Execution_Worker is terminated, tests without a result are reported as `timeout`, and the player is informed that the run timed out.
 6. THE Game SHALL place the execution documentation in a new file named `docs/EXECUTION.md` and SHALL NOT overwrite, modify, or remove any existing content in README.md when creating that file.
 7. IF `docs/EXECUTION.md` already exists when the documentation is added, THEN THE Game SHALL preserve its existing content and append the documentation as a new section.
-8. THE Start_Screen SHALL display a limitation statement of at most 200 characters, as required by Requirement 2, that states the Game is not a secure code runner and that only code the player types in the same session should be run.
+8. THE Technical_Details section of the Start_Screen SHALL contain a limitation statement of at most 200 characters, as required by Requirement 2, that states the Game is not a secure code runner and that only code the player types in the same session should be run.
 9. WHERE README.md is later updated under Requirement 21, THE README.md MAY link to `docs/EXECUTION.md`, and `docs/EXECUTION.md` SHALL remain the location of the execution limitations.
 
 ### Requirement 17: Reduced Motion Support
@@ -374,6 +375,7 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 11. THE Skip_Link SHALL target the `main` landmark of the screen that is currently displayed, and SHALL NOT target the Code_Editor while any screen other than the Play_Screen is displayed.
 12. THE Game SHALL provide on every screen exactly one level-one heading and the landmarks `header`, `main`, and `footer`, with exactly one `main` landmark.
 13. THE Game SHALL set the page language attribute to a valid BCP 47 language code on the root HTML element.
+14. THE Technical_Details control SHALL be reachable by the Tab key, SHALL be operable with the Enter key and the Space key, and SHALL expose its expanded or collapsed state to assistive technology.
 
 ### Requirement 19: Audio
 
@@ -385,7 +387,7 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 2. WHILE sound is off and the player has not activated the Mute_Control in the current page, THE Audio_Manager SHALL NOT create or resume an audio context and SHALL produce no audio output.
 3. WHEN the player activates the "Enable sound" Mute_Control once, THE Audio_Manager SHALL create or resume the audio context in that click handler and unmute in the same action, so that sound is enabled without a second activation.
 4. WHEN the player activates the start control, THE Audio_Manager SHALL NOT create or resume an audio context, and activating the start control SHALL NOT by itself enable sound.
-5. THE Start_Screen and the Play_Screen SHALL each display the Mute_Control, so that the player can opt in to sound before play begins.
+5. THE Start_Screen and the Play_Screen SHALL each display the Mute_Control, so that the player can opt in to sound before play begins, and THE Start_Screen sound instruction SHALL follow Requirement 2 criterion 6.
 6. THE Mute_Control SHALL display the label "Enable sound" while sound is off and "Mute sound" while sound is on, SHALL expose its current state (off or on) to assistive technology, and SHALL update the label and exposed state by the next render after each state change.
 7. WHEN the player activates the "Mute sound" Mute_Control, THE Audio_Manager SHALL produce zero audio output from all sounds, including the Watcher cue and the looping tension sound, in the same action as the activation.
 8. THE Game SHALL preserve the sound opt-in preference in memory across round restarts within the current page, so that a restart does not turn sound off or require a second activation of the Mute_Control.
@@ -407,8 +409,8 @@ Runtime AI-generated mutations and camera or eye tracking are future features an
 2. THE Game SHALL render the CRT_Effect as an overlay that intercepts zero pointer events and zero keyboard events, so that every interactive control beneath it responds to clicks, taps, and key presses.
 3. WHILE the CRT_Effect is displayed, THE Game SHALL keep the contrast ratio of code text at or above the minimum value defined in Requirement 4, measured on the rendered output with the overlay applied.
 4. WHEN the viewport width is between 1024 pixels and 3840 pixels inclusive, THE Game SHALL render with a document width equal to the viewport width, so that no horizontal scrollbar appears.
-5. THE Game SHALL load all fonts from system fonts or fonts bundled with the Game, and SHALL issue zero font requests to external hosts.
-6. IF a bundled font fails to load, THEN THE Game SHALL render text in a system monospace font, and SHALL keep all text visible and unclipped.
+5. THE Game SHALL render all text, including code text, with the system monospace font stack `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`, SHALL NOT bundle font files or declare `@font-face` downloads, and SHALL issue zero font requests to external hosts; a bundled font is a possible future enhancement.
+6. THE Game SHALL keep all text visible and unclipped when rendered with the system monospace font stack.
 
 ### Requirement 21: Project Setup and Repository Constraints
 

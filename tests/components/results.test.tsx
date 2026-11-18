@@ -70,7 +70,7 @@ describe('Results with a mutation', () => {
     expect(applied).not.toBeNull();
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('You lost');
     expect(document.activeElement).toBe(screen.getByRole('heading', { level: 1 }));
-    expect(screen.getAllByLabelText('Code comparison')).toHaveLength(1);
+    expect(screen.getAllByLabelText('Code changes (scrollable)')).toHaveLength(1);
     expect(document.querySelectorAll('.diff-view')).toHaveLength(1);
     expect(screen.getByText(applied.description)).toBeTruthy();
     expect(screen.queryByText('The Watcher changed nothing.')).toBeNull();

@@ -105,7 +105,7 @@ describe('Start screen', () => {
   });
 
   it('disables Begin and shows the error when instructions are unavailable', () => {
-    setup({ children: <StartScreen instructions={[]} /> });
+    setup({ children: <StartScreen instructions={{ rules: [], technical: [] }} /> });
     expect((screen.getByRole('button', { name: 'Begin' }) as HTMLButtonElement).disabled).toBe(true);
     expect(screen.getByText(INSTRUCTIONS_ERROR).textContent).toBe('The instructions could not be loaded.');
   });

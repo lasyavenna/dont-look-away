@@ -197,9 +197,11 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - _Requirements: 8.2, 8.7, 15.3, 15.8, 15.13, 21.11_
 
   - [x] 3.16 Build the Start screen
-    - Create `src/app/screens/StartScreen.tsx` with the title, instructions covering Requirements 2.2 to 2.7 (goal, Page Visibility detection, once-per-round change with later absences still costing sanity, no camera or eye tracking and other visible windows may not be detected, sound off including after reload, not a secure code runner with a limitation statement of at most 200 characters), and the Begin button focused on mount.
-    - Disable Begin and show "The instructions could not be loaded." if required content is missing. Activation by click, Enter, or Space dispatches `START`.
-    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10, 2.11, 16.8, 1.3, 19.4_
+    - Create `src/app/screens/StartScreen.tsx` with the title, three prominent gameplay rules ("Fix the function before sanity reaches zero.", "Leaving the tab costs N sanity and may change your code.", "The Watcher can change your code once per round."), with N read from config (Absence cost).
+    - Add a collapsed-by-default native "Technical details" section (`details`/`summary`) with the accurate disclosures: Page Visibility API only (other visible windows may not be detected), no camera, eye tracking, or gaze detection, code runs in a Web Worker that is not a security sandbox (limitation statement of at most 200 characters), the run timeout read from config (3000 ms by default), and sound is off until enabled.
+    - Add a sound line that reflects the current sound state, including after a restart ("Enable sound" when off, "Mute sound" when on, off after a page reload). Begin is focused on mount.
+    - Disable Begin and show "The instructions could not be loaded." if the rules or technical details are missing. Activation by click, Enter, or Space dispatches `START`.
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10, 2.11, 16.8, 18.14, 19.4, 19.5, 1.3_
 
   - [x] 3.17 Build the TestPanel, SanityMeter, and Play screen
     - Create `src/components/TestPanel.tsx`: one entry per Test_Case in definition order with name, status text (or "not run"), message, expected and actual values for `fail`, expected plus "no actual value" for `error`/`timeout`, an "outdated" badge, a "Run timed out" message, and "Tests could not run." on failure.
@@ -278,64 +280,65 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
 - [x] 6. Checkpoint C - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Milestone D: Horror visuals, audio, and accessibility
-  - [ ] 7.1 Add style tokens and base layout
+- [x] 7. Milestone D: Horror visuals, audio, and accessibility
+  - [x] 7.1 Add style tokens and base layout
     - Create `src/styles/tokens.css` (charcoal `--bg` with relative luminance at most 0.02, exactly one red `--accent`, text, focus, font tokens, per-level CRT and Watcher variables) and `src/styles/app.css` (grid layouts that fit 1024x768 with no horizontal scroll up to 3840 px).
-    - Bundle the monospace font as `woff2` with a system monospace fallback and no external font hosts. Red intensity uses only the one accent token.
+    - Accepted decision: use the system monospace font stack (`ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`); no font files are bundled and no external font hosts are used. A bundled font is a possible future enhancement. Red intensity uses only the one accent token.
     - _Requirements: 20.1, 20.4, 20.5, 20.6, 2.1, 4.2_
 
-  - [ ] 7.2 Implement the CRT overlay
+  - [x] 7.2 Implement the CRT overlay
     - Create `src/components/CrtOverlay.tsx` and CSS: fixed full-viewport overlay with `aria-hidden`, `pointer-events: none`, scanlines (alpha 0.03 to 0.08 by level), a vignette, and a 6 s flicker keyframe. Render it from the app root.
     - _Requirements: 20.2, 20.3, 9.3, 9.8, 17.1_
 
-  - [ ] 7.3 Implement the Watcher SVG
+  - [x] 7.3 Implement the Watcher SVG
     - Create `src/components/Watcher.tsx` and CSS: an inline SVG in its own grid cell with `aria-hidden="true"` and `focusable="false"`, a 6 s gaze keyframe toward the editor, and the `watcher--noticed` appearance (wide eyes, red iris ring, mouth slit) bound to `round.noticedActive`. It clears in the same commit when the phase leaves `playing`. No network requests for images.
     - Add the Watcher to `PlayScreen`.
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.6, 10.7, 10.8, 9.4, 9.5_
 
-  - [ ] 7.4 Implement Warning_Level treatments
+  - [x] 7.4 Implement Warning_Level treatments
     - Create a `useWarningLevel` hook that keeps the previous level when `warningLevelFor` returns `null`. Apply per-level CSS classes on `PlayScreen` that replace the previous level's treatment in one commit: meter red at `uneasy`; text "It is watching your hands." at 1rem and Watcher opacity 0.75 at `distressed`; text "Do not look away." at 1.5rem, red vignette, and Watcher opacity 1.0 at `critical`, including at sanity 0. Intensities increase monotonically.
     - Add a polite live region announcing the level text once per change.
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.9, 8.10_
 
-  - [ ] 7.5 Implement reduced-motion support
+  - [x] 7.5 Implement reduced-motion support
     - Create `src/app/hooks/useReducedMotion.ts` using `matchMedia('(prefers-reduced-motion: reduce)')` with a `change` listener; return `true` if `matchMedia` is unavailable or throws. Provide the value through `GameProvider`.
     - When set: no CRT flicker, static gaze toward the editor, no shake or glitch, a static "noticed" swap, and levels distinguished by text, meter border style, Watcher opacity, and the `critical` vignette. A mid-play change applies by the next render without resetting game state.
     - _Requirements: 17.1, 17.2, 17.3, 17.4, 17.5, 17.6, 10.3_
 
-  - [ ]* 7.6 Write tests for warning treatments and reduced motion
+  - [x]* 7.6 Write tests for warning treatments and reduced motion
     - Level class swap in one commit; level text announced once per change; invalid sanity keeps the previous level; the `matchMedia` change flips treatment with game state intact; `matchMedia` throwing gives reduced motion; Watcher noticed class lifecycle with fake timers.
     - _Requirements: 9.2, 9.6, 9.9, 10.4, 10.5, 10.6, 17.4, 17.6_
 
-  - [ ] 7.7 Implement the Audio_Manager
+  - [x] 7.7 Implement the Audio_Manager
     - Create `src/audio/audioManager.ts` using the Web Audio API only. No `AudioContext` before `enable()`. `enable()` creates and resumes the context and unmutes in the same call. One master `GainNode` at `min(cfg.volumeCap, 0.5)`.
     - Sounds: ambient drone, Watcher cue on Absence end (0.6 s sweep plus noise burst), `critical` tension loop. `mute()` zeroes gain, stops and disconnects nodes, and suspends the context immediately. `silenceAll()` for round changes. A context failure is caught silently and leaves sound off.
     - _Requirements: 19.2, 19.3, 19.7, 19.11, 19.12, 19.13, 19.14, 19.15, 14.5_
 
-  - [ ] 7.8 Implement `MuteControl`, the in-memory sound preference, and `useAudio`
+  - [x] 7.8 Implement `MuteControl`, the in-memory sound preference, and `useAudio`
     - Create `src/components/MuteControl.tsx`: `<button aria-pressed>` labeled "Enable sound" or "Mute sound", rendered on the Start and Play screens. One activation of "Enable sound" enables sound.
     - Hold `soundOn` in an in-memory provider above the screens so `RESTART` keeps it; it always starts `false` on page load and is never written to any storage. Create `useAudio` subscribing to `absenceEndSeq`, the warning level, and `soundOn`, releasing audio nodes in effect cleanup. `START` never touches audio.
     - _Requirements: 19.1, 19.3, 19.4, 19.5, 19.6, 19.8, 19.9, 19.10, 14.5, 14.6_
 
-  - [ ]* 7.9 Write audio tests
+  - [x]* 7.9 Write audio tests
     - `AudioContext` constructor spy: zero calls on load, zero on Begin, one on "Enable sound"; stored values do not enable sound; no call to `Storage.prototype.setItem` when enabling, muting, or restarting; the preference survives restart in memory and is off after remount; context failure keeps gameplay working with no error message; the master gain never exceeds 0.5; the Watcher cue fires once per Absence end only when sound is on; the tension loop stops when the level leaves `critical`.
     - _Requirements: 19.1, 19.2, 19.3, 19.4, 19.8, 19.9, 19.10, 19.11, 19.12, 19.13, 19.14_
 
-  - [ ] 7.10 Implement accessibility structure and focus management
+  - [x] 7.10 Implement accessibility structure and focus management
     - Create `src/components/SkipLink.tsx` and `LiveRegions.tsx`. Every screen gets exactly one `header`, one `main`, one `footer`, one `h1`, and the Skip_Link as the first focusable element. The Skip_Link targets the current screen's `main` (the `h1` on Start, the Code_Editor on Play, `main` on Results) and never targets the editor on other screens.
     - Focus management keyed on `phase`: Begin on Start, the `h1` on Play and Results. Polite live regions: test summary ("3 of 5 tests passed", once per completed or timed-out run), warning level, Watcher notice, and editor limit.
     - Add `:focus-visible` rings of at least 3 px with at least 3:1 contrast, no positive `tabindex`, and a tab order that matches reading order.
     - _Requirements: 18.1, 18.2, 18.3, 18.7, 18.8, 18.9, 18.10, 18.11, 18.12, 6.5, 9.6, 2.8, 13.8_
 
-  - [ ]* 7.11 Write accessibility component tests
+  - [x]* 7.11 Write accessibility component tests
     - Landmark counts and a single `h1` on every screen; Skip_Link first and its target per screen; no positive `tabindex`; "3 of 5 tests passed" announced exactly once per run; Mute control label and `aria-pressed`; keyboard-only start, run, and restart.
+    - Start-screen tests (rules, Technical details collapsed by default, sound line) live in `tests/components/startScreen.test.tsx`.
     - _Requirements: 18.3, 18.7, 18.8, 18.9, 18.10, 18.11, 18.12, 6.5, 19.6_
 
-  - [ ]* 7.12 Write a token contrast unit test
+  - [x]* 7.12 Write a token contrast unit test
     - Compute relative luminance and contrast from `tokens.css` values: `--bg` luminance at most 0.02, text on `--bg` at least 4.5:1, focus on `--bg` at least 3:1, and exactly one red accent defined.
     - _Requirements: 20.1, 4.2, 18.2, 9.7_
 
-- [ ] 8. Checkpoint D - Ensure all tests pass
+- [x] 8. Checkpoint D - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Milestone E: Production-build verification and documentation

@@ -1,0 +1,70 @@
+/* App shell and layouts. Loaded after global.css; overrides ad hoc screen styles. */
+html, body, #root { min-height: 100vh; }
+body { background: var(--atmosphere) var(--bg); background-attachment: fixed; font-family: var(--font-mono); }
+img, svg { max-width: 100%; }
+
+/* Play: header band, then a grid. Watcher gets its own cell. */
+.play-screen { width: 100%; max-width: 160rem; margin: 0 auto; }
+.play-screen__header { border-bottom: 1px solid var(--line-red); }
+.play-screen__footer { border-top: 1px solid var(--line-red); }
+.play-screen__main {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  grid-template-areas: "side editor";
+  gap: var(--space);
+  padding: var(--space);
+}
+.play-screen__main:has(.play-screen__watcher) {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) var(--watcher-size);
+  grid-template-areas: "side editor watcher";
+}
+.play-screen__side { grid-area: side; overflow-wrap: anywhere; }
+.play-screen__editor { grid-area: editor; }
+.play-screen__watcher {
+  grid-area: watcher; align-self: start; justify-self: center;
+  width: var(--watcher-size); max-width: 100%;
+  opacity: var(--watcher-opacity); pointer-events: none;
+}
+.play-screen__watcher svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1280px) { .play-screen { --watcher-size: 12.5rem; } }
+
+/* Buttons: charcoal surface, hairline border, restrained red on hover/pressed.
+ * Focus ring comes from a11y.css (not overridden here). */
+.mute-control, .play-screen__run, .start-screen .begin-button, .results-restart {
+  font: inherit; cursor: pointer; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 2px; padding: 0.5rem 1.25rem;
+}
+.mute-control { padding: 0.25rem 0.75rem; font-size: 0.9rem; }
+.mute-control:hover, .play-screen__run:not(:disabled):hover,
+.start-screen .begin-button:not(:disabled):hover, .results-restart:hover {
+  background: var(--accent-soft); border-color: var(--accent); color: var(--fg);
+}
+.mute-control[aria-pressed='true'] {
+  border-color: var(--accent); border-left-width: 6px; font-weight: 700; background: var(--accent-soft);
+}
+.mute-control[aria-pressed='false'] { font-weight: 400; border-left-width: 1px; }
+.play-screen__run { font-weight: 600; }
+.play-screen__run:disabled { background: var(--surface); color: var(--muted); border-color: var(--line); cursor: progress; }
+.start-screen .begin-button { border: 1px solid var(--accent); padding: 0.6rem 2rem; }
+.code-editor__host { max-width: 100%; }
+@media (max-width: 960px) {
+  .play-screen__main, .play-screen__main:has(.play-screen__watcher) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "watcher" "side" "editor";
+  }
+  .play-screen__watcher { --watcher-size: 6rem; justify-self: end; }
+}
+
+/* Start and Results: centered column with restrained red hairlines */
+.start-screen .screen-header, .results-header { border-bottom: 1px solid var(--line-red); }
+.start-screen .screen-footer, .results-footer { border-top: 1px solid var(--line-red); color: var(--muted); }
+.start-screen .screen-main, .results-main {
+  max-width: var(--reading-max); width: 100%; margin-inline: auto; padding: var(--space);
+  overflow-wrap: anywhere;
+}
+.results-restart { color: var(--fg); background: transparent; border: 2px solid var(--accent); }
+.results-restart:hover { background: var(--accent-soft); }
+.diff-view { background: var(--surface); color: var(--fg); font-family: var(--font-mono); border-color: var(--line); }
+.diff-add { background: color-mix(in srgb, var(--fg) 10%, transparent); }
+.diff-remove { background: var(--accent-soft); }
+.play-screen__warning { padding: 0 1.5rem 0.75rem; }
+.screen-header { display: flex; align-items: center; gap: 1rem; }

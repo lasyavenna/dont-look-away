@@ -577,20 +577,20 @@ Starter and reference differ in exactly one line (`>=` versus `>`); replacing `>
   --accent: #e04a43;        /* the only red; ~4.7:1 on --bg */
   --focus: #e8e6df;         /* ring, >= 3:1 against --bg and --accent */
   --focus-width: 3px;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace; /* bundled woff2 falls back to system */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; /* system stack only */
   --crt-scan-alpha: 0.03;   /* per-level override */
   --crt-vignette: 0;        /* per-level override */
   --watcher-opacity: 0.35;  /* per-level override */
 }
 ```
 
-Red intensity is expressed by opacity or `color-mix(in srgb, var(--accent) N%, transparent)` of that one token, never by a second red. Fonts are bundled `woff2` files (or system monospace); no external font host (Req 20.5, 20.6).
+Red intensity is expressed by opacity or `color-mix(in srgb, var(--accent) N%, transparent)` of that one token, never by a second red. Fonts are the system monospace stack only (accepted for this version): no bundled `woff2`, no `@font-face` downloads, no external font host. A bundled font is a possible future enhancement (Req 20.5, 20.6).
 
 ## Screen Layouts and Horror Experience
 
 All screens fit at 1024x768 and up with no horizontal scroll (Req 2.1, 20.4). Every screen has `header`, one `main`, and `footer`, a single `h1`, and a skip link first in tab order.
 
-Start screen:
+Start screen. The three rules are fixed copy (the cost number comes from `cfg.absenceCost`, default 10). The sound line is derived from the provider's `soundOn`, so it stays correct after a restart. The expanded `details` holds: Page Visibility API only (page hidden/visible, may miss a visible side-by-side window); no camera, eye tracking, or gaze detection; code runs in a Web Worker, which is not a security sandbox, so run only code you typed this session (at most 200 characters); runs time out after `cfg.runTimeoutMs` (3000 ms); sound is off until enabled (Req 2, 16.8, 19.5).
 
 ```
 +--------------------------------------------------------------------+
@@ -599,15 +599,12 @@ Start screen:
 +--------------------------------------------------------------------+
 | main                                                                |
 |  h1  Don't Look Away                                                |
-|  Fix the function. Pass every test before your sanity reaches zero. |
-|  - The game notices when this page becomes hidden (Page Visibility  |
-|    API), e.g. switching tabs or minimizing. Coming back may let the |
-|    Watcher change your code, at most once per round. Each later     |
-|    absence still costs sanity.                                      |
-|  - No camera, microphone, or eye tracking. Another visible window   |
-|    may not be detected.                                             |
-|  - Sound is off until you press "Enable sound" (also after reload). |
-|  - Not a secure code runner: run only code you type yourself.       |
+|  Fix the function before sanity reaches zero.                       |
+|  Leaving the tab costs 10 sanity and may change your code.          |
+|  The Watcher can change your code once per round.                   |
+|  Sound is off. Turn it on with the Enable sound button.             |
+|  (when on: "Sound is on. Mute it with the Mute sound button.")      |
+|  > Technical details   <- native details/summary, collapsed         |
 |                                                                     |
 |                 [ Begin ]   <- focused on load                      |
 +--------------------------------------------------------------------+

@@ -457,6 +457,16 @@
         "executionId": "c5742799-9219-4baf-8d43-8d3a8ae0e7f5",
         "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
         "timestamp": 1794981413801
+      },
+      {
+        "executionId": "7f2f4174-1780-4563-a094-1420504ef524",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794985134337
+      },
+      {
+        "executionId": "7f2f4174-1780-4563-a094-1420504ef524",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794985311720
       }
     ],
     "3.17 Build the TestPanel, SanityMeter, and Play screen": [
@@ -663,6 +673,169 @@
         "executionId": "c525f5a0-0884-4529-9549-159687de2b00",
         "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
         "timestamp": 1794982415786
+      }
+    ],
+    "7.1 Add style tokens and base layout": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983457765
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983534056
+      }
+    ],
+    "7.5 Implement reduced-motion support": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983457879
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983534157
+      }
+    ],
+    "7.7 Implement the Audio_Manager": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983457930
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983534228
+      }
+    ],
+    "7.2 Implement the CRT overlay": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983537498
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983629889
+      }
+    ],
+    "7.3 Implement the Watcher SVG": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983538465
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983629955
+      }
+    ],
+    "7.8 Implement `MuteControl`, the in-memory sound preference, and `useAudio`": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983539009
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983630020
+      }
+    ],
+    "7.4 Implement Warning_Level treatments": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983632939
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984121664
+      }
+    ],
+    "7.10 Implement accessibility structure and focus management": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983634033
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984122162
+      }
+    ],
+    "7.9 Write audio tests": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983634823
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984121596
+      }
+    ],
+    "7.12 Write a token contrast unit test": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794983635508
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984121493
+      }
+    ],
+    "7. Milestone D: Horror visuals, audio, and accessibility": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984122212
+      }
+    ],
+    "7.6 Write tests for warning treatments and reduced motion": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984128048
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984244062
+      }
+    ],
+    "7.11 Write accessibility component tests": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984128125
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984244159
+      }
+    ],
+    "8. Checkpoint D - Ensure all tests pass": [
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984244959
+      },
+      {
+        "executionId": "4fdddc12-d542-41b8-8940-6179e2ea45ae",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794984614397
       }
     ]
   }

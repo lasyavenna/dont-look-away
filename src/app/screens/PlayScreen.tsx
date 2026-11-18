@@ -5,10 +5,16 @@ import { CodeEditor } from '../../components/CodeEditor';
 import type { CodeEditorHandle } from '../../components/CodeEditor';
 import { TestPanel } from '../../components/TestPanel';
 import { SanityMeter } from '../../components/SanityMeter';
+import { MuteControl } from '../../components/MuteControl';
+import { Watcher } from '../../components/Watcher';
+import { SkipLink } from '../../components/SkipLink';
+import { useWarningLevel, LEVEL_TEXT } from '../hooks/useWarningLevel';
 import '../../styles/play.css';
+import '../../styles/levels.css';
 
 export function PlayScreen() {
   const { state, dispatch, config, requestRun } = useGame();
+  const level = useWarningLevel();
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const editorRef = useRef<CodeEditorHandle>(null);
 
@@ -27,9 +33,11 @@ export function PlayScreen() {
   const running = state.run?.status === 'running';
 
   return (
-    <div className="play-screen">
+    <div className={`play-screen level-${level}`}>
+      <SkipLink targetId="main" label="Skip to code editor" onActivate={() => editorRef.current?.focus()} />
       <header className="play-screen__header">
-        <SanityMeter value={state.sanity.value} />
+        <SanityMeter value={state.sanity.value} level={level} />
+        <MuteControl />
       </header>
       <main id="main" className="play-screen__main">
         <section className="play-screen__side">
@@ -52,7 +60,11 @@ export function PlayScreen() {
             {running ? 'Running…' : 'Run Tests'}
           </button>
         </section>
+        <Watcher />
       </main>
+      <p className="play-screen__warning" role="status" aria-live="polite" data-testid="level-warning">
+        {LEVEL_TEXT[level]}
+      </p>
       <div role="status" aria-live="polite" className="play-screen__notice">
         {state.notice === 'watcherChanged' ? 'The Watcher changed your code.' : ''}
       </div>
