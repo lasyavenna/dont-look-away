@@ -47,9 +47,11 @@ export interface Round {
   noticedSeq: number; // bumps on every Absence end
   absenceEndSeq: number; // audio cue trigger
   noticedActive: boolean;
+  woundResolved?: boolean;
 }
 
 export interface GameState {
+  roomIndex: number;
   phase: Phase;
   activeRoundId: number | null; // null whenever phase != 'playing'
   nextRoundId: number;
@@ -66,10 +68,12 @@ export interface GameState {
 export type GameEvent =
   | { type: 'START' }
   | { type: 'RESTART' }
+  | { type: 'NEXT_ROOM' }
   | { type: 'CODE_CHANGED'; roundId: number; code: string }
   | { type: 'DRAIN_TICK'; roundId: number }
   | { type: 'VISIBILITY_HIDDEN'; roundId: number }
   | { type: 'VISIBILITY_VISIBLE'; roundId: number }
+  | { type: 'LOOK_AWAY'; roundId: number }
   | { type: 'NOTICED_EXPIRED'; roundId: number; seq: number }
   | { type: 'RUN_REQUESTED'; roundId: number }
   | { type: 'RUN_RESULT'; roundId: number; runId: number; result: TestResult }

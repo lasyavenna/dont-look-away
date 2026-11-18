@@ -1,6 +1,6 @@
 /* Watcher: layout cell and opacity come from app.css (.play-screen__watcher).
  * Red comes only from --accent. The editor is the column to the LEFT. */
-.watcher { pointer-events: none; user-select: none; transition: opacity 1.2s ease; }
+.watcher { pointer-events: auto; user-select: none; transition: opacity 1.2s ease; }
 .watcher svg { overflow: visible; filter: contrast(1.12) brightness(1.08); }
 :root[data-level='distressed'] .watcher svg { filter: contrast(1.12) brightness(1.08) drop-shadow(0 0 1.25rem color-mix(in srgb, var(--accent) 30%, transparent)); }
 :root[data-level='critical'] .watcher svg { filter: contrast(1.12) brightness(1.08) drop-shadow(0 0 1.75rem color-mix(in srgb, var(--accent) 50%, transparent)); }
@@ -43,3 +43,11 @@
 @media (prefers-reduced-motion: reduce) {
   .watcher, .watcher * { animation: none !important; transition: none !important; }
 }
+
+.watcher__hold { position: relative; display: block; width: 100%; padding: 0.5rem; border: 1px solid var(--line); background: transparent; color: var(--fg); font: inherit; cursor: pointer; touch-action: none; user-select: none; }
+.watcher__hold svg { width: 100%; pointer-events: none; }
+.watcher__hold-label { display: block; font-size: 0.75rem; line-height: 1.5; }
+.watcher__hold-hint { font-size: 0.7rem; line-height: 1.5; color: var(--muted); }
+.watcher__hold-progress { position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--accent); }
+.watcher__hold--active .watcher__hold-progress { width: 100%; transition: width 2s linear; }
+:root[data-reduced-motion='true'] .watcher__hold--active { border-style: double; }

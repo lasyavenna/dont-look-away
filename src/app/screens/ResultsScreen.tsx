@@ -1,3 +1,4 @@
+import { ROOMS } from '../../core/challenge';
 import { useEffect, useRef } from 'react';
 import '../../styles/results.css';
 import { useGame } from '../GameProvider';
@@ -16,6 +17,7 @@ export function ResultsScreen() {
   }, []);
 
   const won = state.phase === 'won';
+  const nextRoom = won && state.roomIndex < ROOMS.length - 1;
   const applied = state.round?.applied ?? null;
   const mutationCount = applied ? 1 : 0;
 
@@ -29,6 +31,7 @@ export function ResultsScreen() {
         <h1 ref={headingRef} tabIndex={-1} className="results-heading">
           {won ? 'You won' : 'You lost'}
         </h1>
+        <p>{nextRoom ? 'One door opens. The Watcher follows.' : won ? 'Both rooms cleared. You escaped the Watcher.' : `Room ${state.roomIndex + 1} claimed you.`}</p>
         <dl className="results-stats">
           <div>
             <dt>Final sanity</dt>
@@ -49,6 +52,11 @@ export function ResultsScreen() {
             </>
           )}
         </section>
+        {nextRoom && (
+          <button type="button" className="results-restart" onClick={() => dispatch({ type: 'NEXT_ROOM' })}>
+            Enter room 2
+          </button>
+        )}
         <button type="button" className="results-restart" onClick={() => dispatch({ type: 'RESTART' })}>
           Look again
         </button>

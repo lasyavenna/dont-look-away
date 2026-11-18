@@ -1,6 +1,9 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
+import type { MutationRecord } from '../core/types';
+import { cutLines } from '../core/mutations';
+import { setWound, woundMarker } from './woundMarker';
 import {
   External,
   LIMIT_MESSAGE,
@@ -13,6 +16,7 @@ import {
 export interface CodeEditorProps {
   /** Source of truth for the document. Differences from the editor are applied as External changes. */
   code: string;
+  wound?: MutationRecord | null;
   readOnly: boolean;
   maxLength: number;
   /** Called only for user edits. */
@@ -25,7 +29,7 @@ export interface CodeEditorHandle {
 }
 
 export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function CodeEditor(
-  { code, readOnly, maxLength, onChange, onRun },
+  { code, wound = null, readOnly, maxLength, onChange, onRun },
   ref,
 ) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -55,7 +59,7 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
     });
     const view = new EditorView({
       parent: host,
-      state: EditorState.create({ doc: initial.current.code, extensions: ext.extensions }),
+      state: EditorState.create({ doc: initial.current.code, extensions: [...ext.extensions, woundMarker] }),
     });
     viewRef.current = view;
     extRef.current = ext;
@@ -79,6 +83,16 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(function
       setLimitReached(false);
     }
   }, [code]);
+
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    const cut = wound ? cutLines(wound) : null;
+    const currentLines = view.state.doc.toString().split('\n');
+    const changedIndex = cut ? currentLines.findIndex((line) => line.trim() === cut.after.trim()) : -1;
+    const line = cut ? Math.min(changedIndex >= 0 ? changedIndex + 1 : cut.line, view.state.doc.lines) : null;
+    view.dispatch({ effects: setWound.of(line === null ? null : view.state.doc.line(line).from) });
+  }, [wound]);
 
   useEffect(() => {
     const view = viewRef.current;

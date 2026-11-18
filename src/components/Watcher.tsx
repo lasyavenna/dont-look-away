@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../app/GameProvider';
 import '../styles/watcher.css';
 
@@ -7,12 +8,84 @@ import '../styles/watcher.css';
  * round's noticedActive flag is set, derived in the same render as the phase.
  */
 export function Watcher() {
-  const { state } = useGame();
+  const { state, store, config } = useGame();
+  const [holding, setHolding] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const completed = useRef(false);
+  const pointer = useRef<number | null>(null);
+  const roundId = state.activeRoundId;
+
+  function cancelHold() {
+    if (timer.current !== null) clearTimeout(timer.current);
+    timer.current = null;
+    setHolding(false);
+  }
+
+  function beginHold() {
+    if (timer.current !== null || completed.current || roundId === null) return;
+    setHolding(true);
+    timer.current = setTimeout(() => {
+      timer.current = null;
+      completed.current = true;
+      setHolding(false);
+      store.dispatch({ type: 'LOOK_AWAY', roundId });
+    }, 2000);
+  }
+
+  function releaseHold() {
+    cancelHold();
+    completed.current = false;
+  }
+
+  useEffect(() => {
+    if (state.round?.absenceActive) {
+      if (timer.current !== null) clearTimeout(timer.current);
+      timer.current = null;
+      completed.current = false;
+      setHolding(false);
+    }
+    return () => {
+      if (timer.current !== null) clearTimeout(timer.current);
+      timer.current = null;
+    };
+  }, [roundId, state.round?.absenceActive]);
   const noticed = state.phase === 'playing' && state.round?.noticedActive === true;
   const className = `play-screen__watcher watcher${noticed ? ' watcher--noticed' : ''}`;
 
   return (
     <div className={className}>
+      <button
+        type="button"
+        className={`watcher__hold${holding ? ' watcher__hold--active' : ''}`}
+        aria-label="Look away. Hold the Watcher for two seconds."
+        aria-describedby="watcher-hold-hint"
+        onPointerDown={(event) => {
+          if (!event.isPrimary || event.button !== 0) return;
+          pointer.current = event.pointerId;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          beginHold();
+        }}
+        onPointerUp={(event) => {
+          if (pointer.current !== event.pointerId) return;
+          pointer.current = null;
+          releaseHold();
+        }}
+        onPointerCancel={releaseHold}
+        onLostPointerCapture={releaseHold}
+        onBlur={releaseHold}
+        onKeyDown={(event) => {
+          if (event.key !== ' ' && event.key !== 'Enter') return;
+          event.preventDefault();
+          if (!event.repeat) beginHold();
+        }}
+        onKeyUp={(event) => {
+          if (event.key !== ' ' && event.key !== 'Enter') return;
+          event.preventDefault();
+          releaseHold();
+        }}
+        onClick={(event) => event.preventDefault()}
+        onContextMenu={(event) => { event.preventDefault(); releaseHold(); }}
+      >
       <svg viewBox="0 0 120 240" aria-hidden="true" focusable="false" role="presentation">
         <defs>
           <radialGradient id="watcher-glow" cx="50%" cy="38%" r="60%">
@@ -51,6 +124,12 @@ export function Watcher() {
         {/* open-mouth slit, only visible when noticed */}
         <ellipse className="watcher__mouth" cx="60" cy="176" rx="14" ry="5" />
       </svg>
+        <span className="watcher__hold-label">{holding ? 'Looking away…' : 'Hold to look away'}</span>
+        <span className="watcher__hold-progress" aria-hidden="true" />
+      </button>
+      <p id="watcher-hold-hint" className="watcher__hold-hint">
+        Hold for 2 seconds · −{config.absenceCost} sanity
+      </p>
     </div>
   );
 }

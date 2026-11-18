@@ -414,6 +414,62 @@ async function main() {
       check(`Results: no horizontal overflow at ${vw}x${vh}`, o.sw <= o.cw && o.bsw <= o.cw, JSON.stringify(o));
     }
 
+    // ---- Persistent wound and deliberate hold ----
+    step('watcher-hold');
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.getByRole('button', { name: 'Look again', exact: true }).click();
+    await page.getByRole('button', { name: 'Begin', exact: true }).click();
+    const watcher = page.getByRole('button', { name: 'Look away. Hold the Watcher for two seconds.' });
+    await watcher.focus();
+    const beforeHold = await sanity(page);
+    await page.keyboard.down('Space');
+    await sleep(500);
+    await page.keyboard.up('Space');
+    check('early hold release does not cut code', await page.locator('.wound').count() === 0);
+    await page.keyboard.down('Space');
+    await sleep(2100);
+    await page.keyboard.up('Space');
+    await page.waitForSelector('.wound');
+    check('full hold charges absence cost', beforeHold - await sanity(page) >= 10);
+    check('cut line marked in the editor', await page.locator('.cm-wound').count() === 1);
+    await sleep(3200);
+    check('wound survives the noticed timer', await page.locator('.wound').count() === 1);
+    const cutText = await page.locator('.wound').innerText();
+    check('compact wound shows removed and added line', cutText.includes('- ') && cutText.includes('+ '));
+    const codeAfterCut = await page.locator('.cm-content').innerText();
+    await watcher.focus();
+    await page.keyboard.down('Enter');
+    await sleep(2100);
+    await page.keyboard.up('Enter');
+    check('second hold does not cut again', await page.locator('.cm-content').innerText() === codeAfterCut);
+    await replaceCode(page, FIXED_CODE);
+    check('repair clears wound and editor marker', await page.locator('.wound').count() === 0 && await page.locator('.cm-wound').count() === 0);
+    await page.click('.play-screen__run');
+    await page.waitForSelector('h1.results-heading');
+    check('results retain the historical cut', (await page.locator('.diff-view').count()) === 1);
+
+    // ---- Second room uses its own challenge, worker payload, and cuts ----
+    step('second-room');
+    await page.getByRole('button', { name: 'Enter room 2', exact: true }).click();
+    check('room two has a different function', (await page.locator('h1').innerText()).includes('secondsUntilDark'));
+    check('room two starts with fresh sanity', (await sanity(page)) >= 99);
+    check('old wound is cleared at the room boundary', await page.locator('.wound').count() === 0);
+    await page.click('.play-screen__run');
+    await page.waitForFunction(() => document.querySelector('.test-panel__live')?.textContent.includes('4 of 5'));
+    const roomTwoHold = page.getByRole('button', { name: 'Look away. Hold the Watcher for two seconds.' });
+    await roomTwoHold.hover();
+    await page.mouse.down();
+    await sleep(2100);
+    await page.mouse.up();
+    await page.waitForSelector('.wound');
+    check('room two applies its own cut', (await page.locator('.wound').innerText()).includes('return seconds - 1'));
+    await replaceCode(page, 'function secondsUntilDark(candles) { return Math.max(0, ...candles); }');
+    await page.click('.play-screen__run');
+    await page.waitForSelector('h1.results-heading');
+    check('second room wins with its own tests', (await page.locator('h1').innerText()) === 'You won');
+    check('exactly two rooms', await page.getByRole('button', { name: 'Enter room 2', exact: true }).count() === 0);
+    check('all workers released after both rooms', (await waitLive0(page)).live === 0);
+
     // ---- Step 6: network ----
     step('network');
     writeFileSync(join(logDir, 'requests.json'), JSON.stringify(requests, null, 2));

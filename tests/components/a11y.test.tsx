@@ -327,7 +327,9 @@ describe('keyboard-only flow', () => {
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('You won');
     expect(document.activeElement).toBe(screen.getByRole('heading', { level: 1 }));
 
-    // Tab to "Look again" and activate it.
+    // Room one now offers continuation first. Tab past it to restart.
+    await user.tab();
+    expect(label(document.activeElement)).toBe('Enter room 2');
     await user.tab();
     expect(label(document.activeElement)).toBe('Look again');
     await user.keyboard('{Enter}');

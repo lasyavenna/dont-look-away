@@ -39,3 +39,38 @@ export const CHALLENGE: Challenge = {
     { name: 'ties go to the first candle', args: [[5, 8, 8, 3]], expected: 1 },
   ],
 };
+
+// Room two uses a separate function and fixtures. Both rooms share the same game rules.
+export const SECOND_CHALLENGE: Challenge = {
+  description: 'Seal the door. Return the number of seconds until the last candle goes dark. The candles burn together, so use the longest duration. An empty room goes dark immediately.',
+  functionName: 'secondsUntilDark',
+  starterCode: `// The door opens when the last flame dies.
+// Candles burn at the same time. Return the longest duration.
+// An empty room takes 0 seconds.
+function secondsUntilDark(candles) {
+  let seconds = 0;
+  for (let i = 1; i < candles.length; i++) {
+    if (candles[i] > seconds) {
+      seconds = candles[i];
+    }
+  }
+  return seconds;
+}
+`,
+  tests: [
+    { name: 'an empty room', args: [[]], expected: 0 },
+    { name: 'one fading flame', args: [[4]], expected: 4 },
+    { name: 'the middle candle lingers', args: [[2, 9, 3]], expected: 9 },
+    { name: 'the final candle lingers', args: [[1, 3, 8]], expected: 8 },
+    { name: 'all flames already out', args: [[0, 0]], expected: 0 },
+  ],
+};
+
+export const ROOMS = [
+  { name: 'The Candle Room', challenge: CHALLENGE },
+  { name: 'The Last Flame', challenge: SECOND_CHALLENGE },
+] as const;
+
+export function roomAt(index: number) {
+  return ROOMS[index] ?? ROOMS[0];
+}
