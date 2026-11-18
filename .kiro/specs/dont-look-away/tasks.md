@@ -8,8 +8,8 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
 
 ## Tasks
 
-- [ ] 1. Milestone A: Setup, challenge fixtures, and core game logic
-  - [ ] 1.1 Scaffold Vite + React + TypeScript (strict) without touching existing repository files
+- [x] 1. Milestone A: Setup, challenge fixtures, and core game logic
+  - [x] 1.1 Scaffold Vite + React + TypeScript (strict) without touching existing repository files
     - Scaffold into a temporary directory outside the repository, then copy only new files (`package.json`, `tsconfig*.json`, `vite.config.ts`, `vitest.config.ts`, `index.html`, `src/**`, `tests/**`). Never copy `README.md`, `LICENSE`, or `.gitignore` from the scaffold.
     - Set `"strict": true`; set `<html lang="en">`; set `worker: { format: 'es' }` in `vite.config.ts`.
     - Install React 19, CodeMirror 6 packages (`@codemirror/state`, `view`, `commands`, `language`, `lang-javascript`), Vitest, fast-check, React Testing Library, `@testing-library/user-event`, jsdom. Commit the lockfile.
@@ -17,78 +17,78 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - Record checksums of `README.md`, `LICENSE`, and `.gitignore` before and after, and confirm they are unchanged.
     - _Requirements: 21.1, 21.2, 21.3, 21.5, 21.9, 21.10, 18.13_
 
-  - [ ] 1.2 Append-only `.gitignore` update and `.kiro` tracking check
+  - [x] 1.2 Append-only `.gitignore` update and `.kiro` tracking check
     - Add only missing lines (for example `node_modules/`, `dist/`) to the end of `.gitignore`. Do not modify or remove any existing line, and do not add a pattern that matches `.kiro`.
     - Verify `git check-ignore .kiro` and `git check-ignore .kiro/specs/dont-look-away/tasks.md` report no match, and `git ls-files .kiro` lists the spec files.
     - Verify with `git diff .gitignore` that the diff contains only added lines.
     - _Requirements: 21.3, 21.4, 21.7, 21.8_
 
-  - [ ] 1.3 Create core types, worker protocol, and cleanup registry
+  - [x] 1.3 Create core types, worker protocol, and cleanup registry
     - Create `src/core/types.ts` (`Phase`, `WarningLevel`, `TestResult`, `Run`, `Round`, `GameState`, `GameEvent`, `StepResult`, `CoreDeps`, `MutationRecord`, `SkipReason`).
     - Create `src/core/protocol.ts` with `MainToWorker`, `WorkerToMain`, and the `isWorkerToMain` shape guard (known status, integer index, ids present).
     - Create `src/core/registry.ts` with `createRegistry()` returning idempotent cleanup callbacks that never throw and a working `activeCount()` and `disposeAll()`.
     - _Requirements: 5.8, 15.7, 15.9, 22.1_
 
-  - [ ] 1.4 Implement the Game_Config module
+  - [x] 1.4 Implement the Game_Config module
     - Create `src/core/config.ts` with `GameConfig`, `DEFAULT_CONFIG` (drain 2000 ms and 1 point, absence cost 10, thresholds 71/41/21, run timeout 3000, editor limit 100,000, noticed 3000 ms, volume cap 0.5, test count 4 to 8, candidate order `off-by-one`, `flipped-comparison`, `lost-name`).
     - Implement `normalizeConfig` (merge and clamp, never throws) and `parseConfigOverrides` (pure, ignores unknown keys and bad values, the core never reads `location`).
     - _Requirements: 21.11, 19.14, 8.2, 8.3, 5.6, 4.8, 10.4, 3.1_
 
-  - [ ]* 1.5 Write property test for config normalization
+  - [x]* 1.5 Write property test for config normalization
     - **Property 17: Config normalization always yields a valid config**
     - Add unit tests for default values and clamping edge cases.
     - **Validates: Requirements 21.11, 19.14**
 
-  - [ ] 1.6 Create the Challenge definition and the test-only Reference_Solution
+  - [x] 1.6 Create the Challenge definition and the test-only Reference_Solution
     - Create `src/core/challenge.ts` with the `brightestCandle` description, function name, the exact starter code from the design (with `>=`), and exactly 5 Test_Cases (`no candles`, `a single flame`, `brightest in the middle`, `brightest at the end`, `ties go to the first candle`) with the args and expected values from the design.
     - Create `tests/fixtures/referenceSolution.ts` identical to the starter except `>` instead of `>=`. Nothing under `src/` may import it.
     - Loading the app must not execute the starter or the reference.
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.6_
 
-  - [ ] 1.7 Implement display formatting and the shared test execution module
+  - [x] 1.7 Implement display formatting and the shared test execution module
     - Create `src/core/format.ts`: `truncateForDisplay` (500 characters plus visible indicator), `serializeValue` (cycle-safe, handles `undefined`, `NaN`, `Infinity`, `bigint`, functions, always returns a string), `deepEqual`.
     - Create `src/core/execute.ts`: `runTestCases` compiles once with `new Function` in strict mode, reports `error` for every test on a parse failure or missing function, runs each test with deep-cloned args, continues after a thrown test, and calls `onResult` once per test with its zero-based index.
     - _Requirements: 5.3, 5.4, 5.5, 5.8, 6.2, 6.3_
 
-  - [ ]* 1.8 Write property test and unit tests for formatting and execution
+  - [x]* 1.8 Write property test and unit tests for formatting and execution
     - **Property 15: Display truncation**
     - Unit tests: truncation at 499, 500, 501 characters; parse error gives `error` for all tests; a throwing test does not stop later tests; one result per test with correct index.
     - **Validates: Requirements 5.8, 6.2**
 
-  - [ ] 1.9 Implement the Mutation_Engine and the three candidates
+  - [x] 1.9 Implement the Mutation_Engine and the three candidates
     - Create `src/core/mutations.ts` with `replaceFirst`, the exact three `CandidateMutation` entries from the design (`off-by-one`, `flipped-comparison`, `lost-name`, with targets, replacements, and descriptions), and `attemptMutation(code, candidates, save, maxLength)`.
     - Skip reasons are exactly `target-missing`, `transform-failed`, `no-change`, `size-limit`. A `size-limit` skip stores no snapshot. A snapshot save that returns false or throws cancels the whole attempt with no later candidate tried. No randomness.
     - _Requirements: 12.1, 12.2, 12.4, 12.5, 12.6, 12.7, 12.8, 12.9, 12.11, 12.12, 12.16, 12.17, 13.1, 13.2_
 
-  - [ ] 1.10 Implement the line diff
+  - [x] 1.10 Implement the line diff
     - Create `src/core/diff.ts` with `diffLines` (common prefix and suffix strip, line LCS on the middle, fallback to remove-all/add-all when `n*m > 4_000_000`), `newFromDiff`, and `oldFromDiff`.
     - _Requirements: 13.5, 13.6, 22.7_
 
-  - [ ] 1.11 Implement sanity and warning-level functions
+  - [x] 1.11 Implement sanity and warning-level functions
     - Create `src/core/sanity.ts` with `applyDrain`, `applyAbsenceCost` (both floor at 0), `warningLevelFor` (returns `null` for non-integers and values outside 0 to 100, `critical` for 0 to 20 using config thresholds), and the `severity` map.
     - _Requirements: 8.2, 8.3, 8.5, 9.1, 9.9, 22.2_
 
-  - [ ]* 1.12 Write property test for warning levels
+  - [x]* 1.12 Write property test for warning levels
     - **Property 1: Warning level is total and monotonic**
     - Add unit boundary tests for 0, 20, 21, 40, 41, 70, 71, 100 and invalid inputs (NaN, -1, 101, 50.5).
     - **Validates: Requirements 9.1, 9.9, 22.2, 22.3**
 
-  - [ ]* 1.13 Write property tests and unit tests for the Mutation_Engine
+  - [x]* 1.13 Write property tests and unit tests for the Mutation_Engine
     - **Property 9: Mutation determinism and purity**
     - **Property 11: Snapshot failure cancels the attempt**
     - Unit tests for each skip reason, `size-limit` distinct from `no-change`, and first-success stops the attempt.
     - **Validates: Requirements 12.7, 12.8, 12.11, 22.6, 12.16, 13.1, 13.2**
 
-  - [ ]* 1.14 Write property test and unit tests for the diff
+  - [x]* 1.14 Write property test and unit tests for the diff
     - **Property 12: Diff round trip**
     - Unit tests for empty strings, trailing newlines, and the large-input fallback.
     - **Validates: Requirements 13.5, 13.6, 22.7**
 
-  - [ ]* 1.15 Write property test for the cleanup registry
+  - [x]* 1.15 Write property test for the cleanup registry
     - **Property 14: Cleanup callbacks are idempotent and complete**
     - **Validates: Requirements 15.7, 15.9**
 
-  - [ ] 1.16 Write development-time fixture validation tests
+  - [x] 1.16 Write development-time fixture validation tests
     - Create `tests/fixtures/fixtures.test.ts` running through `runTestCases`. Fixture validation runs only in tests and never at load time.
     - Check Challenge field limits (description 1 to 500, function name a valid identifier of 1 to 50, starter 1 to 5,000, 4 to 8 tests, unique names of 1 to 80 characters).
     - Check the starter passes at least one and fails at least one test, and that starter and reference share the leading comments and differ only by `>=` versus `>`.
@@ -96,25 +96,25 @@ Implementation language: TypeScript (strict), React 19, Vite, Vitest, fast-check
     - For each candidate, check the target occurs in both starter and reference, the mutated reference compiles, and at least one test fails. A failure here is a fixture defect.
     - _Requirements: 3.1, 3.2, 22.14, 22.15, 22.16, 12.1, 12.12_
 
-  - [ ] 1.17 Implement the core reducer: phases, rounds, drain, code changes
+  - [x] 1.17 Implement the core reducer: phases, rounds, drain, code changes
     - Create `src/core/reducer.ts` with `initialState(config)` and `step(state, event, config, deps)` returning `{ state, outcome }` (`applied`, `discarded`, `rejected`).
     - Handle `START` (only from `ready`: new round id, sanity 100, starter code), `RESTART` (only from `won`/`lost`: `initialState` with id counters carried forward, `activeRoundId` null), `DRAIN_TICK` (drain, reaching 0 gives `lost` in the same step), and `CODE_CHANGED`.
     - Set `activeRoundId` to `null` in the same step as any transition to `won`, `lost`, or `ready`. Reject disallowed transitions. Discard tagged events with a non-matching round id. A second `RESTART` is rejected.
     - Leave hooks for run events and visibility events (added in Milestones B and C). Events not yet handled return `discarded` with the state unchanged.
     - _Requirements: 1.1, 1.2, 1.3, 1.7, 1.8, 1.9, 1.10, 1.12, 8.1, 8.2, 8.6, 14.2, 14.3, 14.6, 14.8, 15.1, 15.11, 22.9_
 
-  - [ ]* 1.18 Write property tests for the state machine
+  - [x]* 1.18 Write property tests for the state machine
     - **Property 3: Only permitted transitions occur**
     - **Property 4: Terminal outcomes are final**
     - **Property 13: Restart restores the initial state**
     - Unit tests: double `RESTART`, `START` outside `ready`, drain reaching 0 gives `lost`, ids never repeat after restart.
     - **Validates: Requirements 1.1, 1.3, 1.8, 1.9, 1.10, 1.12, 14.2, 14.3, 14.6, 14.8, 22.8, 22.9, 22.10**
 
-  - [ ] 1.19 Write the layering boundary test
+  - [x] 1.19 Write the layering boundary test
     - Create `tests/boundaries.test.ts` that scans `src/core/**` for imports of `react`, `react-dom`, `src/app`, `src/audio`, and for `window`, `document`, `navigator`, and web storage identifiers, and scans `src/**` for imports from `tests/`.
     - _Requirements: 22.1, 3.3_
 
-- [ ] 2. Checkpoint A - Ensure all tests pass
+- [x] 2. Checkpoint A - Ensure all tests pass
   - Run `npm run test`, `npm run typecheck`, and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 3. Milestone B: Editor, real worker test runner, win/loss, and restart

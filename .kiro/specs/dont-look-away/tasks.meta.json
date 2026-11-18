@@ -1,0 +1,271 @@
+{
+  "pbtResults": {
+    "1.5 Write property test for config normalization": {
+      "status": "passed",
+      "lastRunTimestamp": 1794980502469
+    },
+    "1.12 Write property test for warning levels": {
+      "status": "passed",
+      "lastRunTimestamp": 1794980579913
+    }
+  },
+  "executionHistory": {
+    "1.1 Scaffold Vite + React + TypeScript (strict) without touching existing repository files": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794978033671
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980356555
+      }
+    ],
+    "1.2 Append-only `.gitignore` update and `.kiro` tracking check": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980360324
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980401154
+      }
+    ],
+    "1.3 Create core types, worker protocol, and cleanup registry": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980360423
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980401240
+      }
+    ],
+    "1.4 Implement the Game_Config module": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980405643
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980456884
+      },
+      {
+        "executionId": "91c4c05b-c7aa-4a98-b1c9-0e24abb50216",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980778475
+      },
+      {
+        "executionId": "91c4c05b-c7aa-4a98-b1c9-0e24abb50216",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980831479
+      }
+    ],
+    "1.6 Create the Challenge definition and the test-only Reference_Solution": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980405717
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980456966
+      }
+    ],
+    "1.7 Implement display formatting and the shared test execution module": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980406035
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980457585
+      }
+    ],
+    "1.9 Implement the Mutation_Engine and the three candidates": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980406806
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980458368
+      }
+    ],
+    "1.10 Implement the line diff": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980407214
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980458884
+      }
+    ],
+    "1.11 Implement sanity and warning-level functions": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980465602
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980529398
+      }
+    ],
+    "1.16 Write development-time fixture validation tests": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980465668
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980529271
+      }
+    ],
+    "1.5 Write property test for config normalization": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980465732
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980529320
+      }
+    ],
+    "1.8 Write property test and unit tests for formatting and execution": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980465851
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980532286
+      }
+    ],
+    "1.14 Write property test and unit tests for the diff": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980466387
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980532240
+      }
+    ],
+    "1.12 Write property test for warning levels": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980535200
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980588301
+      }
+    ],
+    "1.13 Write property tests and unit tests for the Mutation_Engine": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980536109
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980589144
+      }
+    ],
+    "1.15 Write property test for the cleanup registry": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980536750
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980588108
+      }
+    ],
+    "1.17 Implement the core reducer: phases, rounds, drain, code changes": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980537372
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980589699
+      }
+    ],
+    "1.18 Write property tests for the state machine": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980592818
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980649971
+      }
+    ],
+    "1.19 Write the layering boundary test": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980593237
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980646211
+      }
+    ],
+    "1. Milestone A: Setup, challenge fixtures, and core game logic": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980646252
+      }
+    ],
+    "2. Checkpoint A - Ensure all tests pass": [
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980653215
+      },
+      {
+        "executionId": "4dda4626-c9f5-44f3-9c93-41f454ff3d4c",
+        "chatSessionId": "sess_e7b6aa79-d2e0-401b-a6d7-b1552231a68f",
+        "timestamp": 1794980692737
+      }
+    ]
+  }
+}
