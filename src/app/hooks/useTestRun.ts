@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import type { GameConfig } from '../../core/config';
-import { CHALLENGE } from '../../core/challenge';
+import { roomAt } from '../../core/challenge';
 import { isWorkerToMain } from '../../core/protocol';
 import type { MainToWorker } from '../../core/protocol';
 import { createRegistry } from '../../core/registry';
@@ -71,13 +71,14 @@ export function useTestRun(store: GameStore, workerFactory: WorkerFactory, confi
     worker.onerror = () => fail('Tests could not run.');
     worker.onmessageerror = () => fail('Tests could not run.');
 
+    const challenge = roomAt(store.getState().roomIndex).challenge;
     const message: MainToWorker = {
       type: 'run',
       roundId: cRound,
       runId: cRun,
       code: store.getState().code,
-      fnName: CHALLENGE.functionName,
-      tests: CHALLENGE.tests.map((t) => ({ name: t.name, args: t.args, expected: t.expected })),
+      fnName: challenge.functionName,
+      tests: challenge.tests.map((t) => ({ name: t.name, args: t.args, expected: t.expected })),
     };
     try {
       worker.postMessage(message);

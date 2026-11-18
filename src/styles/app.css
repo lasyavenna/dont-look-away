@@ -22,9 +22,9 @@ img, svg { max-width: 100%; }
 .play-screen__watcher {
   grid-area: watcher; align-self: start; justify-self: center;
   width: var(--watcher-size); max-width: 100%;
-  opacity: var(--watcher-opacity); pointer-events: none;
+  pointer-events: auto;
 }
-.play-screen__watcher svg { display: block; width: 100%; height: auto; }
+.play-screen__watcher svg { opacity: var(--watcher-opacity); display: block; width: 100%; height: auto; }
 @media (min-width: 1280px) { .play-screen { --watcher-size: 12.5rem; } }
 
 /* Buttons: charcoal surface, hairline border, restrained red on hover/pressed.

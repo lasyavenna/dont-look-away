@@ -101,6 +101,8 @@ export function StartScreen({ instructions }: StartScreenProps) {
                 <li key={text}>{text}</li>
               ))}
             </ol>
+            <p>Two rooms. Two functions. The same Watcher.</p>
+            <p>Hold the Watcher for 2 seconds during play to look away. It costs the same {config.absenceCost} sanity as leaving the tab.</p>
             <p className="start-sound" role="status">
               {soundOn ? SOUND_ON_TEXT : SOUND_OFF_TEXT}
             </p>
@@ -128,7 +130,7 @@ export function StartScreen({ instructions }: StartScreenProps) {
           Begin
         </button>
       </main>
-      <footer className="screen-footer">Tab-switch detection only. Nothing leaves your browser.</footer>
+      <footer className="screen-footer">Tab detection and deliberate Watcher holds. Code stays in your browser.</footer>
     </div>
   );
 }

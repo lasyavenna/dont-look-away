@@ -5,6 +5,23 @@ A psychological horror coding game where looking away lets the Watcher alter you
 
 **[Play Don't Look Away](https://dont-look-away.vercel.app/)** in your browser. No install is needed. Sound is off until you choose to enable it.
 
+## Two rooms and the Watcher
+
+Clear the Candle Room (`brightestCandle`) to unlock The Last Flame
+(`secondsUntilDark`). Each room starts with 100 sanity and has its own
+five tests and three hand-written cuts. Choose **Enter room 2** after
+the first win. **Look again** restarts the two-room run.
+
+Hold the Watcher with the pointer, touch, Space, or Enter for two full
+seconds to look away deliberately. Release early to cancel. A completed
+hold uses the same rule as returning from another tab. It costs 10 sanity
+and can apply the room's one cut. Later holds still cost sanity.
+
+After a cut, its before-and-after line stays above the editor, and the
+injured line is marked. Restoring that line clears the wound. A different
+correct implementation can clear the room by passing every test.
+The results screen retains the full historical diff.
+
 ## What this is
 
 Don't Look Away is a browser-based psychological horror coding game, made with Kiro for Kiroween 2026 in the Costume Contest category. You fix a small JavaScript function while your sanity drains. If you look away, the Watcher changes your code.
@@ -45,11 +62,11 @@ VERIFY_URL=http://localhost:5173 node scripts/verify-build.mjs --no-build
 2. Leaving the tab costs sanity and may change your code.
 3. The Watcher can change your code once per round.
 
-- Fix `brightestCandle` so all 5 tests pass.
+- Fix each room's function so all five tests pass.
 - Click **Run Tests** or press Ctrl+Enter (Cmd+Enter on macOS).
 - Press Escape, then Tab, to leave the editor. A skip link at the top of each screen jumps to the main content.
 - Sanity drains over time. The meter and on-screen text escalate through three warning levels: uneasy, distressed, and critical.
-- The Watcher changes your code at most once per round, after you return from being away.
+- The Watcher changes your code at most once per room, after a tab return or a completed two-second hold.
 - The Results screen shows what changed. Choose **Look again** to start a new round.
 
 ## Privacy and detection

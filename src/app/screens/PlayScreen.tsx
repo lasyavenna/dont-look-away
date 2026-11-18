@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useGame } from '../GameProvider';
-import { CHALLENGE } from '../../core/challenge';
+import { cutLines } from '../../core/mutations';
+import { ROOMS, roomAt } from '../../core/challenge';
 import { CodeEditor } from '../../components/CodeEditor';
 import type { CodeEditorHandle } from '../../components/CodeEditor';
 import { TestPanel } from '../../components/TestPanel';
@@ -14,6 +15,8 @@ import '../../styles/levels.css';
 
 export function PlayScreen() {
   const { state, dispatch, config, requestRun } = useGame();
+  const room = roomAt(state.roomIndex);
+  const challenge = room.challenge;
   const level = useWarningLevel();
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const editorRef = useRef<CodeEditorHandle>(null);
@@ -30,6 +33,8 @@ export function PlayScreen() {
     [dispatch, roundId],
   );
 
+  const wound = state.round?.applied && !state.round.woundResolved ? state.round.applied : null;
+  const cut = wound ? cutLines(wound) : null;
   const running = state.run?.status === 'running';
 
   return (
@@ -41,16 +46,27 @@ export function PlayScreen() {
       </header>
       <main id="main" className="play-screen__main">
         <section className="play-screen__side">
+          <p className="room-label">Room {state.roomIndex + 1} of {ROOMS.length} · {room.name}</p>
           <h1 ref={h1Ref} tabIndex={-1}>
-            Repair {CHALLENGE.functionName}
+            Repair {challenge.functionName}
           </h1>
-          <p className="play-screen__description">{CHALLENGE.description}</p>
-          <TestPanel tests={CHALLENGE.tests} displayRun={state.displayRun} resultsOutdated={state.resultsOutdated} />
+          <p className="play-screen__description">{challenge.description}</p>
+          <TestPanel tests={challenge.tests} displayRun={state.displayRun} resultsOutdated={state.resultsOutdated} />
         </section>
         <section className="play-screen__editor" aria-label="Code editor">
+          {cut && (
+            <section className="wound" aria-label="Unrepaired Watcher cut">
+              <p role="status">The Watcher left a cut. Repair the marked line.</p>
+              <pre tabIndex={0} aria-label="Watcher cut before and after">
+                <code className="diff-line diff-remove">- {cut.before}{'\n'}</code>
+                <code className="diff-line diff-add">+ {cut.after}</code>
+              </pre>
+            </section>
+          )}
           <CodeEditor
             ref={editorRef}
             code={state.code}
+            wound={wound}
             readOnly={false}
             maxLength={config.editorMaxLength}
             onChange={onChange}

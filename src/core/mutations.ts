@@ -86,3 +86,41 @@ export function attemptMutation(
   }
   return { kind: 'none', skipped };
 }
+
+/** The single changed line for the hand-written cuts, kept separate from the full results diff. */
+export function cutLines(record: MutationRecord): { before: string; after: string; line: number } {
+  const before = record.snapshot.split('\n');
+  const after = record.resultingCode.split('\n');
+  const index = after.findIndex((line, i) => line !== before[i]);
+  return { before: before[index] ?? '', after: after[index] ?? '', line: Math.max(1, index + 1) };
+}
+
+export function cutRestored(record: MutationRecord, code: string): boolean {
+  const { before } = cutLines(record);
+  return code.split('\n').some((line) => line.trim() === before.trim());
+}
+
+export const SECOND_CANDIDATES: readonly CandidateMutation[] = [
+  {
+    id: 'borrowed-second',
+    description: 'The Watcher stole a second from the last flame.',
+    target: 'return seconds;',
+    transform: replaceFirst('return seconds;', 'return seconds - 1;'),
+  },
+  {
+    id: 'shortest-flame',
+    description: 'The Watcher made the shortest flame choose the darkness.',
+    target: 'candles[i] > seconds',
+    transform: replaceFirst('candles[i] > seconds', 'candles[i] < seconds'),
+  },
+  {
+    id: 'hollow-candle',
+    description: 'The Watcher replaced the candle with its empty neighbour.',
+    target: 'seconds = candles[i];',
+    transform: replaceFirst('seconds = candles[i];', 'seconds = candles[i + 1];'),
+  },
+];
+
+export function candidatesForRoom(index: number): readonly CandidateMutation[] {
+  return index === 1 ? SECOND_CANDIDATES : CANDIDATES;
+}

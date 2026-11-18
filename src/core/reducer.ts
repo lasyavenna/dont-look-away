@@ -1,6 +1,6 @@
-import { CHALLENGE } from './challenge';
+import { ROOMS, roomAt } from './challenge';
 import type { GameConfig } from './config';
-import { CANDIDATES, attemptMutation } from './mutations';
+import { candidatesForRoom, attemptMutation, cutRestored } from './mutations';
 import type { CandidateMutation } from './mutations';
 import { applyAbsenceCost, applyDrain } from './sanity';
 import { serializeValue, truncateForDisplay } from './format';
@@ -10,6 +10,7 @@ const MAX_SANITY = 100;
 
 export function initialState(_config: GameConfig): GameState {
   return {
+    roomIndex: 0,
     phase: 'ready',
     activeRoundId: null,
     nextRoundId: 1,
@@ -56,7 +57,7 @@ function staleRunning(state: GameState): GameState {
   return { ...state, run: stale, displayRun };
 }
 
-function fillMissing(run: Run, status: 'error' | 'timeout', message: string): TestResult[] {
+function fillMissing(state: GameState, run: Run, status: 'error' | 'timeout', message: string): TestResult[] {
   const have = new Set(run.results.map((r) => r.index));
   const out = [...run.results];
   for (let i = 0; i < run.testCount; i++) {
@@ -65,7 +66,7 @@ function fillMissing(run: Run, status: 'error' | 'timeout', message: string): Te
       index: i,
       status,
       message,
-      expectedText: truncateForDisplay(serializeValue(CHALLENGE.tests[i]?.expected), 500),
+      expectedText: truncateForDisplay(serializeValue(roomAt(state.roomIndex).challenge.tests[i]?.expected), 500),
       actualText: null,
     });
   }
@@ -73,8 +74,8 @@ function fillMissing(run: Run, status: 'error' | 'timeout', message: string): Te
 }
 
 /** Round-tagged events (everything except START and RESTART) carry a roundId. */
-function isRoundTagged(e: GameEvent): e is Exclude<GameEvent, { type: 'START' | 'RESTART' }> {
-  return e.type !== 'START' && e.type !== 'RESTART';
+function isRoundTagged(e: GameEvent): e is Exclude<GameEvent, { type: 'START' | 'RESTART' | 'NEXT_ROOM' }> {
+  return e.type !== 'START' && e.type !== 'RESTART' && e.type !== 'NEXT_ROOM';
 }
 
 /**
@@ -99,13 +100,23 @@ export function step(
         activeRoundId: roundId,
         nextRoundId: roundId + 1,
         sanity: { value: MAX_SANITY },
-        code: CHALLENGE.starterCode,
+        code: roomAt(state.roomIndex).challenge.starterCode,
         round: newRound(roundId),
         run: null,
         displayRun: null,
         resultsOutdated: false,
         notice: 'none',
       });
+    }
+    case 'NEXT_ROOM': {
+      if (state.phase !== 'won' || state.roomIndex >= ROOMS.length - 1) return rejected(state);
+      const ready = {
+        ...initialState(config),
+        roomIndex: state.roomIndex + 1,
+        nextRoundId: state.nextRoundId,
+        nextRunId: state.nextRunId,
+      };
+      return step(ready, { type: 'START' }, config, deps);
     }
     case 'RESTART': {
       if (state.phase !== 'won' && state.phase !== 'lost') return rejected(state);
@@ -127,7 +138,11 @@ export function step(
 
   switch (event.type) {
     case 'CODE_CHANGED': {
-      return applied({ ...staleRunning(state), code: event.code, resultsOutdated: state.displayRun !== null || state.resultsOutdated });
+      const record = state.round?.applied;
+      const round = record && state.round
+        ? { ...state.round, woundResolved: cutRestored(record, event.code) }
+        : state.round;
+      return applied({ ...staleRunning(state), round, code: event.code, resultsOutdated: state.displayRun !== null || state.resultsOutdated });
     }
     case 'RUN_REQUESTED': {
       if (state.run?.status === 'running') return discarded(state);
@@ -135,7 +150,7 @@ export function step(
         runId: state.nextRunId,
         roundId: event.roundId,
         status: 'running',
-        testCount: CHALLENGE.tests.length,
+        testCount: roomAt(state.roomIndex).challenge.tests.length,
         results: [],
         doneReceived: false,
       };
@@ -157,7 +172,7 @@ export function step(
       const run = currentRunning(state, event.runId);
       if (!run || event.count !== run.testCount) return discarded(state);
       const allReceived = run.results.length === run.testCount;
-      const filled = allReceived ? run.results : fillMissing(run, 'error', 'The test worker finished early.');
+      const filled = allReceived ? run.results : fillMissing(state, run, 'error', 'The test worker finished early.');
       const next: Run = { ...run, results: filled, doneReceived: true, status: 'complete' };
       const base: GameState = { ...state, run: next, displayRun: next, resultsOutdated: false };
       if (allReceived && filled.every((r) => r.status === 'pass')) {
@@ -176,7 +191,7 @@ export function step(
     case 'RUN_TIMEOUT': {
       const run = currentRunning(state, event.runId);
       if (!run) return discarded(state);
-      const next: Run = { ...run, results: fillMissing(run, 'timeout', 'The test timed out.'), status: 'timedOut' };
+      const next: Run = { ...run, results: fillMissing(state, run, 'timeout', 'The test timed out.'), status: 'timedOut' };
       return applied({ ...state, run: next, displayRun: next, resultsOutdated: false });
     }
     case 'RUN_FAILED': {
@@ -184,7 +199,7 @@ export function step(
       if (!run) return discarded(state);
       const next: Run = {
         ...run,
-        results: fillMissing(run, 'error', 'Tests could not run.'),
+        results: fillMissing(state, run, 'error', 'Tests could not run.'),
         status: 'failed',
         error: String(event.message),
       };
@@ -203,9 +218,11 @@ export function step(
       if (!round || round.absenceActive) return discarded(state);
       return applied({ ...state, round: { ...round, absenceActive: true } });
     }
+    case 'LOOK_AWAY':
     case 'VISIBILITY_VISIBLE': {
       const round = state.round;
-      if (!round || !round.absenceActive) return discarded(state);
+      if (!round) return discarded(state);
+      if (event.type === 'VISIBILITY_VISIBLE' ? !round.absenceActive : round.absenceActive) return discarded(state);
       const base: Round = {
         ...round,
         absenceActive: false,
@@ -228,9 +245,10 @@ export function step(
       if (round.applied !== null) {
         return applied({ ...withCost, round: { ...base, noticedActive: true }, notice: 'none' });
       }
-      const candidates = config.candidateOrder
-        .map((id) => CANDIDATES.find((c) => c.id === id))
-        .filter((c): c is CandidateMutation => c !== undefined);
+      const roomCandidates = candidatesForRoom(state.roomIndex);
+      const candidates = state.roomIndex === 0 ? config.candidateOrder
+        .map((id) => roomCandidates.find((c) => c.id === id))
+        .filter((c): c is CandidateMutation => c !== undefined) : roomCandidates;
       const save = deps?.saveSnapshot ?? (() => true);
       const result = attemptMutation(state.code, candidates, save, config.editorMaxLength);
       if (result.kind === 'applied') {
